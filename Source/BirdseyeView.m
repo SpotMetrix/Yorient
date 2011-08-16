@@ -295,6 +295,9 @@
 
 - (NSArray *) sanitizeLocations:(NSArray *)newLocations
 {
+    if (!newLocations)
+        return [NSArray array];
+    
     NSMutableArray *tmp = [NSMutableArray arrayWithCapacity:[newLocations count]];
     
     for (id loc in newLocations)

@@ -10,6 +10,7 @@
 #import "MainViewController.h"
 #import "Constants.h"
 
+
 #define SG_CONSUMER_KEY @"cxu7vcXRsfSaBZGm4EZffVGRq662YCNJ"
 #define SG_CONSUMER_SECRET @"fTGANz54NXzMVQ6gwgnJcKEua4m2MLSs"
 
@@ -34,6 +35,9 @@
     
     [hudView release];
     hudView = nil;
+    
+    [focusView release];
+    focusView = nil;
     
     [spinner release];
     spinner = nil;
@@ -66,7 +70,7 @@
     
     toggleMapButton.hidden = [((NSString*)[[NSUserDefaults standardUserDefaults] objectForKey:@"3darMapMode"]) isEqualToString:@"auto"];
     
-//    [mapView startCamera];
+    [mapView startCamera];
 }
 
 - (void) viewDidLoad 
@@ -83,14 +87,10 @@
     }    
     
     [self addBirdseyeView];
-
     
-    // Search screen
+    mapView.sm3dar.focusView = focusView;
     
-//    self.search = [[[YahooLocalSearch alloc] init] autorelease];
-//    search.delegate = self;
- 
-//    mapView.sm3dar.focusView = mapView.calloutView;
+    [focusView setCalloutDelegate:mapView];
 }
 
 - (void)runLocalSearch:(NSString*)query 
@@ -123,38 +123,20 @@
 {
     // 3DAR initialization is complete
     
-//    [self addDirectionBillboardsWithFixtures];    
-    
-//    [self runLocalSearch:@"bar"];
-    
     self.searchQuery = nil;
 
     [self fetchSimpleGeoPlaces];
-    
 }
 
 - (void) sm3dar:(SM3DARController *)sm3dar didChangeFocusToPOI:(SM3DARPoint *)newPOI fromPOI:(SM3DARPoint *)oldPOI
 {
 	[self playFocusSound];
+    [self.view bringSubviewToFront:focusView];
 }
 
 - (void) sm3dar:(SM3DARController *)sm3dar didChangeSelectionToPOI:(SM3DARPoint *)newPOI fromPOI:(SM3DARPoint *)oldPOI
 {
 	NSLog(@"POI was selected: %@", [newPOI title]);
-
-    /*
-    SM3DARPointOfInterest *poi = (SM3DARPointOfInterest *)newPOI;
-    
-    mapView.calloutView.hidden = NO;
-    mapView.calloutView.titleLabel.text = newPOI.title;
-    mapView.calloutView.distanceLabel.text = [poi formattedDistanceFromCurrentLocationWithUnits];
-    
-    [newPOI.view addSubview:mapView.calloutView];
-
-    CGPoint center = mapView.calloutView.center;
-    mapView.calloutView.center = CGPointMake((center.x), // - mapView.calloutView.bounds.size.width/2), 
-                                             center.y -(mapView.calloutView.bounds.size.height + 4));
-    */
 }
 
 
@@ -275,7 +257,7 @@
 - (void) sm3darDidHideMap:(SM3DARController *)sm3dar
 {
     hudView.hidden = NO;
-    [hudView addSubview:mapView.sm3dar.iconLogo];
+//    [hudView addSubview:mapView.sm3dar.iconLogo];
 
 }
 
@@ -324,28 +306,57 @@
             //NSLog(@"place cat: %@", category);
             
             NSString *subcategory = (NSString *)[classifiers objectForKey:@"subcategory"];
+            
             if (subcategory && ! ([subcategory isEqual:@""] ||
-                                  [subcategory isEqual:[NSNull null]])) {
+                                  [subcategory isEqual:[NSNull null]])) 
+            {
                 category = [NSString stringWithFormat:@"%@ : %@", category, subcategory];
             }
         }
-        
-        MKPointAnnotation *annotation = [[[MKPointAnnotation alloc] init] autorelease];
+
         CLLocationCoordinate2D coordinate;
         coordinate.latitude = point.latitude;
-        coordinate.longitude = point.longitude;
+        coordinate.longitude = point.longitude;        
         
+#if 0
+
+        // Use standard marker view.
+        
+        MKPointAnnotation *annotation = [[[MKPointAnnotation alloc] init] autorelease];
         annotation.coordinate = coordinate;
         annotation.title = name;
         annotation.subtitle = category;
+        
+#else
+        
+        // Use custom marker view.
+
+        CLLocation *location = [[[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude] autorelease];
+
+        SM3DARPointOfInterest *annotation = [[[SM3DARPointOfInterest alloc] initWithLocation:location properties:[place properties]] autorelease];
+        annotation.title = name;
+        annotation.subtitle = category;
+        
+#endif
         
         [annotations addObject:annotation];
     }
     
     NSLog(@"Adding annotations");
     [birdseyeView setLocations:annotations];
-    [self.mapView addAnnotations:annotations];
+    [mapView addAnnotations:annotations];
+    
+    
+    // Temporary workaround:
+    for (SM3DARPointOfInterest *poi in [mapView.sm3dar pointsOfInterest])
+    {
+        if ([poi.view isKindOfClass:[SM3DARIconMarkerView class]])
+        {
+            ((SM3DARIconMarkerView *)poi.view).callout = nil;
+        }
+    }
 
+    
     [mapView zoomMapToFit];
     [spinner stopAnimating];
 }
@@ -375,6 +386,7 @@
 {
     [spinner startAnimating];
     
+    [birdseyeView setLocations:nil];
     [self.mapView removeAllAnnotations];
  
 //    [self add3dObjectNortheastOfUserLocation];
@@ -409,6 +421,11 @@
     {
         [mapView.sm3dar showMap];
     }
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event 
+{
+    NSLog(@"Main view");
 }
 
 @end

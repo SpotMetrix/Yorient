@@ -13,6 +13,7 @@
 #import <MapKit/MapKit.h>
 #import <SimpleGeo/SimpleGeo.h>
 #import "BirdseyeView.h"
+#import "ThumbnailCalloutFocusView.h"
 
 @interface MainViewController : UIViewController <MKMapViewDelegate, SM3DARDelegate, CLLocationManagerDelegate, SearchDelegate> 
 {
@@ -26,6 +27,7 @@
 
     IBOutlet SM3DARMapView *mapView;
     IBOutlet UIView *hudView;
+    IBOutlet ThumbnailCalloutFocusView *focusView;    
     IBOutlet UIActivityIndicatorView *spinner;
     
     SimpleGeo *simplegeo;
