@@ -34,6 +34,7 @@
     BirdseyeView *birdseyeView;
     
     IBOutlet UIButton *toggleMapButton;
+    SM3DARPointOfInterest *northStar;
 }
 
 @property (nonatomic, retain) NSString *searchQuery;
@@ -48,5 +49,6 @@
 - (void) fetchSimpleGeoPlaces;
 - (IBAction) refreshButtonTapped;
 - (IBAction) toggleMapButtonTapped:(UIButton *)sender;
+- (void) addNorthStar;
 
 @end

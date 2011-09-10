@@ -46,6 +46,7 @@
     [birdseyeView release];
     
     [toggleMapButton release];
+    [northStar release];
     
 	[super dealloc];
 }
@@ -91,7 +92,22 @@
     mapView.sm3dar.focusView = focusView;
     
     [focusView setCalloutDelegate:mapView];
+    
 }
+
+/*
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.view.frame = [UIScreen mainScreen].applicationFrame;
+    mapView.frame = self.view.frame;
+    [mapView.sm3dar setFrame:self.view.frame];
+//    [mapView.sm3dar.view addSubview:mapView.sm3dar.iconLogo];
+    
+    self.view.backgroundColor = [UIColor blueColor];
+}
+*/
 
 - (void)runLocalSearch:(NSString*)query 
 {
@@ -125,7 +141,15 @@
     
     self.searchQuery = nil;
 
+    [self addNorthStar];
     [self fetchSimpleGeoPlaces];
+
+    
+    // TODO: Move this into 3DAR as display3darLogo
+    
+    CGFloat logoCenterX = sm3dar.view.frame.size.width - 10 - (sm3dar.iconLogo.frame.size.width / 2);
+    CGFloat logoCenterY = sm3dar.view.frame.size.height - 10 - (sm3dar.iconLogo.frame.size.height / 2);                           
+    sm3dar.iconLogo.center = CGPointMake(logoCenterX, logoCenterY);
 }
 
 - (void) sm3dar:(SM3DARController *)sm3dar didChangeFocusToPOI:(SM3DARPoint *)newPOI fromPOI:(SM3DARPoint *)oldPOI
@@ -340,6 +364,8 @@
 #endif
         
         [annotations addObject:annotation];
+        
+        break;
     }
     
     NSLog(@"Adding annotations");
@@ -382,13 +408,38 @@
     [mapView addAnnotation:(SM3DARPointOfInterest*)poi];  // 
 }
 
+- (void) addNorthStar
+{
+    UIImageView *star = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"polaris.png"]] autorelease];
+    
+    CLLocationDegrees latitude = mapView.sm3dar.userLocation.coordinate.latitude + 0.1;
+    CLLocationDegrees longitude = mapView.sm3dar.userLocation.coordinate.longitude;
+    
+    
+    // NOTE: poi is autoreleased
+    
+    northStar = [[mapView.sm3dar addPointAtLatitude:latitude
+                              longitude:longitude
+                               altitude:3000.0 
+                                  title:@"Polaris" 
+                                   view:star] retain];
+    
+    northStar.canReceiveFocus = NO;
+    
+    // 3DAR bug: addPointAtLatitude:longitude:altitude:title:view should add the point, not just init it.  Doh!
+    [mapView.sm3dar addPoint:northStar];
+}
+
+
 - (IBAction) refreshButtonTapped
 {
     [spinner startAnimating];
     
     [birdseyeView setLocations:nil];
     [self.mapView removeAllAnnotations];
- 
+
+//    [self addNorthStar];
+
 //    [self add3dObjectNortheastOfUserLocation];
     [self fetchSimpleGeoPlaces];    
 }
@@ -423,10 +474,54 @@
     }
 }
 
+//
+// This was added on 9/10/2011 for Stéphane.
+// https://gist.github.com/1207231
+//
+- (SM3DARPointOfInterest *) movePOI:(SM3DARPointOfInterest *)poi toLatitude:(CLLocationDegrees)latitude longitude:(CLLocationDegrees)longitude altitude:(CLLocationDistance)altitude
+{    
+    
+    CLLocation *newLocation = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
+    
+    SM3DARPointOfInterest *newPOI = [[SM3DARPointOfInterest alloc] initWithLocation:newLocation 
+                                                                              title:poi.title 
+                                                                           subtitle:poi.subtitle 
+                                                                                url:poi.dataURL 
+                                                                         properties:poi.properties];
+    
+    newPOI.view = poi.view;
+    newPOI.delegate = poi.delegate;
+    newPOI.annotationViewClass = poi.annotationViewClass;
+    newPOI.canReceiveFocus = poi.canReceiveFocus;
+    newPOI.hasFocus = poi.hasFocus;
+    newPOI.identifier = poi.identifier;
+    newPOI.gearPosition = poi.gearPosition;
+    
+
+    id oldAnnotation = [mapView annotationForPoint:poi];
+    
+    if (oldAnnotation)
+    {
+        [mapView removeAnnotation:oldAnnotation];
+        [mapView addAnnotation:newPOI];
+    }
+    else
+    {
+        [mapView.sm3dar removePointOfInterest:poi];
+        [mapView.sm3dar addPointOfInterest:newPOI];
+    }
+    
+    [newLocation release];
+    [newPOI release];
+    
+    return newPOI;
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event 
 {
-    NSLog(@"Main view");
+    NSLog(@"Main view touched");
 }
+
 
 @end
 

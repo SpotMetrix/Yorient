@@ -75,7 +75,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUIImageView" id="403350516">
 								<reference key="NSNextResponder" ref="747827742"/>
-								<int key="NSvFlags">274</int>
+								<int key="NSvFlags">-2147483374</int>
 								<string key="NSFrame">{{108, 0}, {84, 95}}</string>
 								<reference key="NSSuperview" ref="747827742"/>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -87,7 +87,7 @@
 							</object>
 							<object class="IBUIImageView" id="159080038">
 								<reference key="NSNextResponder" ref="747827742"/>
-								<int key="NSvFlags">292</int>
+								<int key="NSvFlags">-2147483356</int>
 								<string key="NSFrame">{{114, 5}, {70, 70}}</string>
 								<reference key="NSSuperview" ref="747827742"/>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -108,9 +108,13 @@
 						</object>
 						<string key="NSFrame">{{10, 125}, {300, 274}}</string>
 						<reference key="NSSuperview" ref="883825266"/>
-						<reference key="IBUIBackgroundColor" ref="539150330"/>
+						<object class="NSColor" key="IBUIBackgroundColor">
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MSAwLjUwMTk2MDgxNCAwAA</bytes>
+						</object>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIAutoresizesSubviews">NO</bool>
+						<float key="IBUIAlpha">0.52816903591156006</float>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 					<object class="IBMKMapView" id="361290588">
@@ -591,12 +595,17 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">SM3DARMapView</string>
-					<string key="superclassName">MKMapView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+					<string key="className">SM3DARDetailCalloutView</string>
+					<string key="superclassName">UIView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="64311234">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">3DAR/SM3DAR.h</string>
 					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">SM3DARMapView</string>
+					<string key="superclassName">MKMapView</string>
+					<reference key="sourceIdentifier" ref="64311234"/>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">ThumbnailCalloutFocusView</string>
