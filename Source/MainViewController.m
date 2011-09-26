@@ -13,6 +13,8 @@
 
 #define SG_CONSUMER_KEY @"cxu7vcXRsfSaBZGm4EZffVGRq662YCNJ"
 #define SG_CONSUMER_SECRET @"fTGANz54NXzMVQ6gwgnJcKEua4m2MLSs"
+#define IDEAL_LOCATION_ACCURACY 20.0
+
 
 @interface MainViewController (Private)
 - (void) addBirdseyeView;
@@ -51,6 +53,28 @@
 	[super dealloc];
 }
 
+- (void) reduceDesiredLocationAccuracy:(NSTimer*)timer
+{
+    NSLog(@"\n\nLocation accuracy: %.0f\n\n", mapView.sm3dar.userLocation.horizontalAccuracy);
+
+    if (desiredLocationAccuracyAttempts > 4 || mapView.sm3dar.userLocation.horizontalAccuracy <= desiredLocationAccuracy)
+    {
+        NSLog(@"Acceptable location accuracy achieved: %.0f", mapView.sm3dar.userLocation.horizontalAccuracy);
+        acceptableLocationAccuracyAchieved = YES;
+        [timer invalidate];
+        timer = nil;
+        [mapView.sm3dar.locationManager setDesiredAccuracy:kCLLocationAccuracyBestForNavigation];        
+        [self loadPoints];
+    }
+    else
+    {
+        desiredLocationAccuracy *= 2;
+        NSLog(@"Setting desired location accuracy to %.0f", desiredLocationAccuracy);
+        [mapView.sm3dar.locationManager setDesiredAccuracy:desiredLocationAccuracy];        
+        desiredLocationAccuracyAttempts++;
+    }
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil 
 {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) 
@@ -59,10 +83,39 @@
                                     consumerKey:SG_CONSUMER_KEY
                                  consumerSecret:SG_CONSUMER_SECRET];
         
+        desiredLocationAccuracy = IDEAL_LOCATION_ACCURACY / 2.0;
+        
         [simplegeo setDelegate:self];
     }
     
     return self;
+}
+
+- (void) lookBusy
+{
+    [spinner startAnimating];
+        
+    CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:@"transform"];
+    CATransform3D xfm = CATransform3DMakeRotation(M_PI, 0, 0, 1.0);
+    
+    anim.repeatCount = INT_MAX;
+    anim.duration = 5.0;
+    anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]; 
+    anim.toValue = [NSValue valueWithCATransform3D:xfm];
+    anim.cumulative = YES;
+    anim.additive = YES;
+    anim.fillMode = kCAFillModeForwards;
+    anim.removedOnCompletion = NO;
+    anim.autoreverses = NO;
+    
+    [[spinner layer] addAnimation:anim forKey:@"flip"];
+
+}
+
+- (void) relax
+{
+    [spinner stopAnimating];
+    [[spinner layer] removeAnimationForKey:@"flip"];
 }
 
 - (void) viewDidAppear:(BOOL)animated 
@@ -83,8 +136,8 @@
     
     if (hudView)
     {
-        mapView.sm3dar.hudView = hudView;
-        hudView.hidden = YES;
+//        mapView.sm3dar.hudView = hudView;
+//        hudView.hidden = YES;
     }    
     
     [self addBirdseyeView];
@@ -92,7 +145,10 @@
     mapView.sm3dar.focusView = focusView;
     
     [focusView setCalloutDelegate:mapView];
-    
+
+    [self lookBusy];
+    [self.view bringSubviewToFront:hudView];
+    [self.view bringSubviewToFront:spinner];
 }
 
 /*
@@ -111,7 +167,7 @@
 
 - (void)runLocalSearch:(NSString*)query 
 {
-    [spinner startAnimating];
+    [self lookBusy];
 
     [mapView removeAnnotations:mapView.annotations];
     
@@ -135,27 +191,41 @@
 
 #pragma mark Data loading
 
-- (void) sm3darLoadPoints:(SM3DARController *)sm3dar
+- (void) loadPoints
 {
-    // 3DAR initialization is complete
-    
-    self.searchQuery = nil;
+    [self lookBusy];
 
+    self.searchQuery = nil;
+    
     [self addNorthStar];
     [self fetchSimpleGeoPlaces];
-
+    
     
     // TODO: Move this into 3DAR as display3darLogo
     
-    CGFloat logoCenterX = sm3dar.view.frame.size.width - 10 - (sm3dar.iconLogo.frame.size.width / 2);
-    CGFloat logoCenterY = sm3dar.view.frame.size.height - 10 - (sm3dar.iconLogo.frame.size.height / 2);                           
-    sm3dar.iconLogo.center = CGPointMake(logoCenterX, logoCenterY);
+    CGFloat logoCenterX = mapView.sm3dar.view.frame.size.width - 10 - (mapView.sm3dar.iconLogo.frame.size.width / 2);
+    CGFloat logoCenterY = mapView.sm3dar.view.frame.size.height - 10 - (mapView.sm3dar.iconLogo.frame.size.height / 2);                           
+    mapView.sm3dar.iconLogo.center = CGPointMake(logoCenterX, logoCenterY);    
+}
+
+- (void) sm3darLoadPoints:(SM3DARController *)sm3dar
+{
+    // 3DAR initialization is complete, 
+    // but the first location update may not be very accurate.
+
+    if (mapView.sm3dar.userLocation.horizontalAccuracy <= IDEAL_LOCATION_ACCURACY)
+    {
+        [self loadPoints];
+    }
+    else
+    {
+        [NSTimer scheduledTimerWithTimeInterval:2.5 target:self selector:@selector(reduceDesiredLocationAccuracy:) userInfo:nil repeats:YES];
+    }
 }
 
 - (void) sm3dar:(SM3DARController *)sm3dar didChangeFocusToPOI:(SM3DARPoint *)newPOI fromPOI:(SM3DARPoint *)oldPOI
 {
 	[self playFocusSound];
-    [self.view bringSubviewToFront:focusView];
 }
 
 - (void) sm3dar:(SM3DARController *)sm3dar didChangeSelectionToPOI:(SM3DARPoint *)newPOI fromPOI:(SM3DARPoint *)oldPOI
@@ -189,7 +259,31 @@
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation 
 {
+    if (!acceptableLocationAccuracyAchieved)
+    {
+        [mapView zoomMapToFit];
+    }
+
     birdseyeView.centerLocation = newLocation;
+    
+    
+    // When moving quickly along a path
+    // in or on a vehicle like a bus, automobile or bike
+    // I want yorient to auto-refresh upcoming places
+    // several seconds ahead of my current position 
+    // in small batches of 7 or so
+    // working backwards towards me from my vector
+    // d = rt, so 50 km/h * 10 sec = 500 km*sec/h = 0.14 km
+    // 140 meters in 10 seconds at 50 km/h on a Broadway bus
+    // bearing 270° (west)
+    // use Vincenty to find lat/lng of point 140m away at 270°
+    // 
+    // Once I see places popping up around me 
+    // as I move through and among them
+    // I'll prefer that my location updates happen smoothly
+    // so that place markers cruise by me with rest of the scene
+    // without jerking.
+    // 
 }
 
 #pragma mark -
@@ -246,7 +340,7 @@
 
 - (void) searchDidFinishWithEmptyResults
 {
-    [spinner stopAnimating];
+    [self relax];
 }
 
 - (void) searchDidFinishWithResults:(NSArray*)results;
@@ -266,21 +360,21 @@
     }
     
     [mapView addAnnotations:points];
-    [spinner stopAnimating];
 
 //    [mapView performSelectorOnMainThread:@selector(zoomMapToFit) withObject:nil waitUntilDone:YES];
 //    [mapView addBackground];
     [mapView zoomMapToFit];
+    [self relax];
 }
 
 - (void) sm3darDidShowMap:(SM3DARController *)sm3dar
 {
-    hudView.hidden = YES;
+//    hudView.hidden = YES;
 }
 
 - (void) sm3darDidHideMap:(SM3DARController *)sm3dar
 {
-    hudView.hidden = NO;
+//    hudView.hidden = NO;
 //    [hudView addSubview:mapView.sm3dar.iconLogo];
 
 }
@@ -364,8 +458,6 @@
 #endif
         
         [annotations addObject:annotation];
-        
-        break;
     }
     
     NSLog(@"Adding annotations");
@@ -374,6 +466,8 @@
     
     
     // Temporary workaround:
+    // Hide the simple callout view
+    // because yorient uses its own focusView.
     for (SM3DARPointOfInterest *poi in [mapView.sm3dar pointsOfInterest])
     {
         if ([poi.view isKindOfClass:[SM3DARIconMarkerView class]])
@@ -381,10 +475,9 @@
             ((SM3DARIconMarkerView *)poi.view).callout = nil;
         }
     }
-
     
     [mapView zoomMapToFit];
-    [spinner stopAnimating];
+    [self relax];
 }
 
 #pragma mark -
@@ -433,7 +526,7 @@
 
 - (IBAction) refreshButtonTapped
 {
-    [spinner startAnimating];
+    [self lookBusy];
     
     [birdseyeView setLocations:nil];
     [self.mapView removeAllAnnotations];
@@ -516,12 +609,13 @@
     
     return newPOI;
 }
-
+/*
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event 
 {
     NSLog(@"Main view touched");
+    [self.nextResponder touchesBegan:touches withEvent:event];
 }
-
+*/
 
 @end
 

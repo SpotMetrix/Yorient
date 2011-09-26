@@ -1,5 +1,5 @@
 /*
- *  3DAR Version 2.1.1
+ *  3DAR Version 2.1.2
  *  Released in Yorient on 8/16/2011
  *
  *  SM3DAR.h
@@ -7,6 +7,10 @@
  *  Copyright 2009 Spot Metrix, Inc. All rights reserved.
  *  http://3DAR.us
  *
+ *
+ * Changes since 2.1.1:
+ *   - Fix: GL view was not being resized properly when sm3dar view frame was changed.
+ *   - Fix: focusView no longer blocks POI taps.
  *
  */
 
@@ -187,7 +191,7 @@ typedef struct
 @property (nonatomic, retain) SM3DARPoint *selectedPOI;
 @property (nonatomic, assign) Class markerViewClass;
 @property (nonatomic, retain) NSString *mapAnnotationImageName;
-@property (nonatomic, retain) NSObject<SM3DARFocusDelegate> *focusView;
+@property (nonatomic, retain) SM3DARFocusView *focusView;
 @property (nonatomic, assign) CGFloat screenOrientationRadians;
 @property (nonatomic, retain) UIView *glView;
 @property (nonatomic, retain) UIView *hudView;
@@ -496,6 +500,18 @@ typedef struct
 @interface SM3DARRoundedLabel : UILabel
 @property (nonatomic, assign) CGFloat maxWidth;
 - (void)setText:(NSString*)newText adjustSize:(BOOL)adjustSize;
+@end
+
+
+//
+//
+//
+@interface SM3DARCouchDB : NSObject 
+- (id) initWithDatabase:(NSString*)dbName host:(NSString*)h port:(NSUInteger)p user:(NSString*)u password:(NSString*)pwd;
+- (void) changeDatabase:(NSString *)dbName;
+- (void) createDocumentWithBody:(NSString *)body encoded:(BOOL)encoded;
+- (void) createDocument:(NSDictionary *)content;
+- (void) createDocument:(NSDictionary *)content timestamp:(NSDate *)timestamp;
 @end
 
 

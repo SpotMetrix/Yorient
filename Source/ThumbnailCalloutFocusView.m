@@ -63,6 +63,7 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event 
 {
     NSLog(@"Focus view touched");
+    [self.nextResponder touchesBegan:touches withEvent:event];
 }
 
 

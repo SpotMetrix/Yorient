@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SM3DAR.h"
 
-@interface ThumbnailCalloutFocusView : UIView <SM3DARFocusDelegate>
+@interface ThumbnailCalloutFocusView : SM3DARFocusView
 {
     IBOutlet UIImageView *focusThumbView;
     IBOutlet SM3DARDetailCalloutView *focusCalloutView;

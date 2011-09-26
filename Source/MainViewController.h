@@ -35,6 +35,10 @@
     
     IBOutlet UIButton *toggleMapButton;
     SM3DARPointOfInterest *northStar;
+
+    CLLocationAccuracy desiredLocationAccuracy;
+    NSInteger desiredLocationAccuracyAttempts;
+    BOOL acceptableLocationAccuracyAchieved;
 }
 
 @property (nonatomic, retain) NSString *searchQuery;
@@ -50,5 +54,6 @@
 - (IBAction) refreshButtonTapped;
 - (IBAction) toggleMapButtonTapped:(UIButton *)sender;
 - (void) addNorthStar;
+- (void) loadPoints;
 
 @end

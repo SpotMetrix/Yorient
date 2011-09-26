@@ -74,9 +74,9 @@
 		A679302B13D7CE2D0000ECD7 /* ar_icon_white_34x34.png in Resources */ = {isa = PBXBuildFile; fileRef = A679302913D7CE2D0000ECD7 /* ar_icon_white_34x34.png */; };
 		A67F63D213FF3A06005258A9 /* polaris@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A67F63D013FF3A06005258A9 /* polaris@2x.png */; };
 		A67F63D313FF3A06005258A9 /* polaris.png in Resources */ = {isa = PBXBuildFile; fileRef = A67F63D113FF3A06005258A9 /* polaris.png */; };
-		A6996448141B4ED70005A828 /* lib3DAR_v2_1_2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6996447141B4ED70005A828 /* lib3DAR_v2_1_2.a */; };
 		A69CBA7113DA3E3700E718D1 /* SimpleGeo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A69CBA6F13DA3E3700E718D1 /* SimpleGeo.framework */; };
 		A69CBA7213DA3E3700E718D1 /* YAJL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A69CBA7013DA3E3700E718D1 /* YAJL.framework */; };
+		A6AFD16B14313D0100932A18 /* lib3DAR_v2_1_2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6AFD16A14313D0100932A18 /* lib3DAR_v2_1_2.a */; };
 		A6BE263913811F0F000A4A4F /* BirdseyeView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BE263813811F0F000A4A4F /* BirdseyeView.m */; };
 		A6BFE087130B7484007D8CA3 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A6BFE081130B7484007D8CA3 /* Default.png */; };
 		A6BFE088130B7484007D8CA3 /* focus1.aif in Resources */ = {isa = PBXBuildFile; fileRef = A6BFE082130B7484007D8CA3 /* focus1.aif */; };
@@ -221,9 +221,9 @@
 		A679302913D7CE2D0000ECD7 /* ar_icon_white_34x34.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ar_icon_white_34x34.png; sourceTree = "<group>"; };
 		A67F63D013FF3A06005258A9 /* polaris@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "polaris@2x.png"; sourceTree = "<group>"; };
 		A67F63D113FF3A06005258A9 /* polaris.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = polaris.png; sourceTree = "<group>"; };
-		A6996447141B4ED70005A828 /* lib3DAR_v2_1_2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = lib3DAR_v2_1_2.a; sourceTree = "<group>"; };
 		A69CBA6F13DA3E3700E718D1 /* SimpleGeo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SimpleGeo.framework; sourceTree = "<group>"; };
 		A69CBA7013DA3E3700E718D1 /* YAJL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = YAJL.framework; sourceTree = "<group>"; };
+		A6AFD16A14313D0100932A18 /* lib3DAR_v2_1_2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = lib3DAR_v2_1_2.a; sourceTree = "<group>"; };
 		A6BE263713811F0E000A4A4F /* BirdseyeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BirdseyeView.h; sourceTree = "<group>"; };
 		A6BE263813811F0F000A4A4F /* BirdseyeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BirdseyeView.m; sourceTree = "<group>"; };
 		A6BFE081130B7484007D8CA3 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -275,7 +275,7 @@
 				A6D68FC4137A69C800402D63 /* libz.dylib in Frameworks */,
 				A69CBA7113DA3E3700E718D1 /* SimpleGeo.framework in Frameworks */,
 				A69CBA7213DA3E3700E718D1 /* YAJL.framework in Frameworks */,
-				A6996448141B4ED70005A828 /* lib3DAR_v2_1_2.a in Frameworks */,
+				A6AFD16B14313D0100932A18 /* lib3DAR_v2_1_2.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -610,7 +610,7 @@
 		A679300D13D7C2D60000ECD7 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
-				A6996447141B4ED70005A828 /* lib3DAR_v2_1_2.a */,
+				A6AFD16A14313D0100932A18 /* lib3DAR_v2_1_2.a */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
