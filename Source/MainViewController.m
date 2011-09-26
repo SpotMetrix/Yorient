@@ -13,7 +13,7 @@
 
 #define SG_CONSUMER_KEY @"cxu7vcXRsfSaBZGm4EZffVGRq662YCNJ"
 #define SG_CONSUMER_SECRET @"fTGANz54NXzMVQ6gwgnJcKEua4m2MLSs"
-#define IDEAL_LOCATION_ACCURACY 20.0
+#define IDEAL_LOCATION_ACCURACY 10.0
 
 
 @interface MainViewController (Private)
@@ -55,11 +55,11 @@
 
 - (void) reduceDesiredLocationAccuracy:(NSTimer*)timer
 {
-    NSLog(@"\n\nLocation accuracy: %.0f\n\n", mapView.sm3dar.userLocation.horizontalAccuracy);
+    NSLog(@"Current location accuracy: %.0f", mapView.sm3dar.userLocation.horizontalAccuracy);
 
-    if (desiredLocationAccuracyAttempts > 4 || mapView.sm3dar.userLocation.horizontalAccuracy <= desiredLocationAccuracy)
+    if (desiredLocationAccuracyAttempts > 8 || mapView.sm3dar.userLocation.horizontalAccuracy <= desiredLocationAccuracy)
     {
-        NSLog(@"Acceptable location accuracy achieved: %.0f", mapView.sm3dar.userLocation.horizontalAccuracy);
+        NSLog(@"Acceptable location accuracy achieved.", mapView.sm3dar.userLocation.horizontalAccuracy);
         acceptableLocationAccuracyAchieved = YES;
         [timer invalidate];
         timer = nil;
@@ -68,7 +68,7 @@
     }
     else
     {
-        desiredLocationAccuracy *= 2;
+        desiredLocationAccuracy *= 1.5;
         NSLog(@"Setting desired location accuracy to %.0f", desiredLocationAccuracy);
         [mapView.sm3dar.locationManager setDesiredAccuracy:desiredLocationAccuracy];        
         desiredLocationAccuracyAttempts++;
@@ -219,7 +219,7 @@
     }
     else
     {
-        [NSTimer scheduledTimerWithTimeInterval:2.5 target:self selector:@selector(reduceDesiredLocationAccuracy:) userInfo:nil repeats:YES];
+        [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(reduceDesiredLocationAccuracy:) userInfo:nil repeats:YES];
     }
 }
 
