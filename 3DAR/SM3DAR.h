@@ -1,6 +1,6 @@
 /*
  *  3DAR Version 2.1.2
- *  Released in Yorient on 8/16/2011
+ *  Released October 5th, 2011
  *
  *  SM3DAR.h
  *
@@ -11,7 +11,7 @@
  * Changes since 2.1.1:
  *   - Fix: GL view was not being resized properly when sm3dar view frame was changed.
  *   - Fix: focusView no longer blocks POI taps.
- *
+ *   - Added imageName property to SM3DARIconMarkerView
  */
 
 #import <MapKit/MapKit.h>
@@ -393,6 +393,7 @@ typedef struct
 
 @property (nonatomic, retain) UIImageView *icon;
 @property (nonatomic, retain) SM3DARSimpleCalloutView *callout;
+@property (nonatomic, retain) NSString *imageName;
 
 - (id)initWithPointOfInterest:(SM3DARPointOfInterest*)pointOfInterest imageName:(NSString *)imageName;
 + (NSString*)randomIconName;
