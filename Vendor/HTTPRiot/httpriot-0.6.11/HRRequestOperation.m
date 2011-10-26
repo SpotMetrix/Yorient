@@ -308,7 +308,7 @@
     }
     
     NSString *errorMessage = [NSString stringWithFormat:@"Invalid Formatter %@", NSStringFromClass(theFormatter)];
-    NSAssert([theFormatter conformsToProtocol:@protocol(HRFormatterProtocol)], errorMessage); 
+    NSAssert([theFormatter conformsToProtocol:@protocol(HRFormatterProtocol)], errorMessage, nil); 
     
     return theFormatter;
 }

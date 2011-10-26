@@ -124,7 +124,7 @@
     
     toggleMapButton.hidden = [((NSString*)[[NSUserDefaults standardUserDefaults] objectForKey:@"3darMapMode"]) isEqualToString:@"auto"];
     
-    [mapView startCamera];
+    [mapView.sm3dar startCamera];
 }
 
 - (void) viewDidLoad 
@@ -149,6 +149,9 @@
     [self lookBusy];
     [self.view bringSubviewToFront:hudView];
     [self.view bringSubviewToFront:spinner];
+    
+    [self.view setFrame:[UIScreen mainScreen].bounds];
+    [mapView.sm3dar setFrame:self.view.bounds];
 }
 
 /*
@@ -199,7 +202,6 @@
     
     [self addNorthStar];
     [self fetchSimpleGeoPlaces];
-    
     
     // TODO: Move this into 3DAR as display3darLogo
     
@@ -526,6 +528,17 @@
 
 - (IBAction) refreshButtonTapped
 {
+    if (mapView.sm3dar.camera)
+    {
+        [mapView stopCamera];
+    }
+    else
+    {
+        [mapView startCamera];
+    }
+    
+    return;
+    
     [self lookBusy];
     
     [birdseyeView setLocations:nil];
@@ -534,7 +547,7 @@
 //    [self addNorthStar];
 
 //    [self add3dObjectNortheastOfUserLocation];
-    [self fetchSimpleGeoPlaces];    
+//    [self fetchSimpleGeoPlaces];    
 }
 
 - (void) addBirdseyeView

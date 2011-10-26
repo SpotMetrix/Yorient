@@ -1,6 +1,5 @@
 /*
- *  3DAR Version 2.1.2
- *  Released October 5th, 2011
+ *  3DAR Version 2.1.3
  *
  *  SM3DAR.h
  *
@@ -8,10 +7,8 @@
  *  http://3DAR.us
  *
  *
- * Changes since 2.1.1:
- *   - Fix: GL view was not being resized properly when sm3dar view frame was changed.
- *   - Fix: focusView no longer blocks POI taps.
- *   - Added imageName property to SM3DARIconMarkerView
+ * Changes since 2.1.2:
+ *   - Fix: The camera view is no longer blacked out.
  */
 
 #import <MapKit/MapKit.h>
@@ -157,7 +154,7 @@ typedef struct
 @property (nonatomic, assign) BOOL canReceiveFocus;
 @property (nonatomic, assign) BOOL hasFocus;
 @property (nonatomic, assign) NSUInteger identifier;
-@property (nonatomic, retain) NSString *title;
+@property (nonatomic, copy) NSString *title;
 
 - (Coord3D) worldCoordinate;
 - (void) translateX:(CGFloat)x Y:(CGFloat)y Z:(CGFloat)z;
@@ -292,7 +289,7 @@ typedef struct
 @property (nonatomic, assign) BOOL canReceiveFocus;
 @property (nonatomic, assign) BOOL hasFocus;
 @property (nonatomic, assign) NSUInteger identifier;
-@property (nonatomic, retain) NSString *title;
+@property (nonatomic, copy) NSString *title;
 
 - (CGFloat)gearSpeed;
 - (NSInteger)numberOfTeethInGear;
@@ -308,8 +305,8 @@ typedef struct
 @interface SM3DARPointOfInterest : CLLocation <MKAnnotation, SM3DARPointProtocol> {
 }
 
-@property (nonatomic, retain) NSString *title;
-@property (nonatomic, retain) NSString *subtitle;
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *subtitle;
 @property (nonatomic, retain) NSDictionary *properties;
 @property (nonatomic, retain) NSURL *dataURL;
 @property (nonatomic, assign) NSObject<SM3DARDelegate> *delegate;
