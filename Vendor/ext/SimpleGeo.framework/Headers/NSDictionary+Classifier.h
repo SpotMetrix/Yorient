@@ -1,8 +1,8 @@
 //
-//  SGFeatureCollection.h
+//  NSDictionary+Classifier.h
 //  SimpleGeo.framework
 //
-//  Copyright (c) 2010-2011, SimpleGeo Inc.
+//  Copyright (c) 2011, SimpleGeo Inc.
 //  All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -28,44 +28,40 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
+#import "SGCategories.h"
 
-/*!
- * Collections of Features.
+/**
+ * This category on NSDictionary allows you to easily create a SimpleGeo classifier -
+ * a dictionary with *"type,"* *"category,"* and *"subcategory"* top-level keys.
+ * More importantly, accessor methods allow for easier access to key values,
+ * returning nil if no key exists or if the value is null.
  */
-@interface SGFeatureCollection : NSObject
-{
-  @private
-    NSArray* features;
-}
+@interface NSDictionary (Classifier)
 
-//! Collected Features.
-@property (retain,readonly) NSArray* features;
-
-/*!
- * Create a FeatureCollection from a list of Features.
- * @param features List of Features.
+/**
+ * Create a dictionary that conforms to the SimpleGeo
+ * classifier protocol for Features
+ * @param type          Feature type
+ * @param category      Feature category
+ * @param subcategory   Feature subcategory
  */
-+ (SGFeatureCollection *)featureCollectionWithFeatures:(NSArray *)features;
++ (NSDictionary *)classifierWithType:(SGFeatureType)type
+                            category:(SGFeatureCategory)category
+                         subcategory:(SGFeatureSubcategory)subcategory;
 
-/*!
- * Create a FeatureCollection from a list of Records.
- * @param records List of Records.
+/**
+ * Retreive the feature type
  */
-+ (SGFeatureCollection *)featureCollectionWithRecords:(NSArray *)records;
+- (SGFeatureType)classifierType;
 
-/*!
- * Construct a FeatureCollection from a list of Features.
- * @param features List of Features.
+/**
+ * Retreive the feature category
  */
-- (id)initWithFeatures:(NSArray *)features;
+- (SGFeatureCategory)classifierCategory;
 
-/*!
- * Construct a FeatureCollection from a list of Records.
- * @param someRecords List of Records.
+/**
+ * Retreive the feature subcategory
  */
-- (id)initWithRecords:(NSArray *)someRecords;
-
-//! Gets the number of features in this collection.
-- (NSUInteger)count;
+- (SGFeatureSubcategory)classifierSubcategory;
 
 @end

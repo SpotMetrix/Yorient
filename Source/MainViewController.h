@@ -50,7 +50,7 @@
 - (void)playFocusSound;
 - (void)runLocalSearch:(NSString*)query;
 //- (void)addDirectionBillboardsWithFixtures;
-- (void) fetchSimpleGeoPlaces;
+- (void) fetchSimpleGeoPlaces:(NSString*)searchString;
 - (IBAction) refreshButtonTapped;
 - (IBAction) toggleMapButtonTapped:(UIButton *)sender;
 - (void) addNorthStar;

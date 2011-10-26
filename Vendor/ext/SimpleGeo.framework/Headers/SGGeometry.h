@@ -28,10 +28,56 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
+@class SGPoint;
+@class SGEnvelope;
 
-/*!
- * Abstract Geometry class/factory.
+/**
+ * SGGeometry serves as an abstract class for a geometry.
+ * Every SGGeometry object can be created from, and transformed into, a [GeoJSON geometry dictionary.](http://geojson.org/geojson-spec.html#geometry-objects)
  */
 @interface SGGeometry : NSObject
+
+#pragma mark -
+#pragma mark GeoJSON -> SGGeometry
+
+/**
+ * Create an appropriate SGGeometry object from
+ * a valid GeoJSON Geometry dictionary
+ * @param geoJSONGeometry   GeoJSON Geometry dictionary
+ */
++ (SGGeometry *)geometryWithGeoJSON:(NSDictionary *)geoJSONGeometry;
+
+/**
+ * Construct an appropriate SGGeometry object from
+ * a valid GeoJSON Geometry dictionary
+ * @param geoJSONGeometry   GeoJSON Geometry dictionary
+ */
+- (id)initWithGeoJSON:(NSDictionary *)geoJSONGeometry;
+
+#pragma mark -
+#pragma mark SGGeometry -> GeoJSON
+
+/**
+ * SGGeometry object as a GeoJSON Geometry dictionary
+ */
+- (NSDictionary *)asGeoJSON;
+
+@end
+
+#pragma mark -
+#pragma mark Region Geometry Protocol
+
+/**
+ * (Multi)Polygon geometry protocol
+ */
+@protocol SGRegionGeometry <NSObject>
+
+- (SGEnvelope *)envelope;
+
+/**
+ * Determine if a given point lies within the bounds of the polygon
+ * @param point Point to check
+ */
+- (BOOL)containsPoint:(SGPoint *)point;
 
 @end

@@ -79,13 +79,10 @@
 {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) 
     {      
-        self.simplegeo = [SimpleGeo clientWithDelegate:self
-                                    consumerKey:SG_CONSUMER_KEY
-                                 consumerSecret:SG_CONSUMER_SECRET];
+        self.simplegeo = [SimpleGeo clientWithConsumerKey:SG_CONSUMER_KEY
+                                            consumerSecret:SG_CONSUMER_SECRET];
         
-        desiredLocationAccuracy = IDEAL_LOCATION_ACCURACY / 2.0;
-        
-        [simplegeo setDelegate:self];
+        desiredLocationAccuracy = IDEAL_LOCATION_ACCURACY / 2.0;        
     }
     
     return self;
@@ -201,7 +198,7 @@
     self.searchQuery = nil;
     
     [self addNorthStar];
-    [self fetchSimpleGeoPlaces];
+    [self fetchSimpleGeoPlaces:nil];
     
     // TODO: Move this into 3DAR as display3darLogo
     
@@ -381,51 +378,26 @@
 
 }
 
-#pragma mark SimpleGeoDelegate methods
+#pragma mark SimpleGeo
 
-- (void)requestDidFail:(ASIHTTPRequest *)request
+- (void) plotSimpleGeoPlaces:(NSArray*)fetchedPlaces
 {
-    NSLog(@"SimpleGeo Request failed: %@: %i", [request responseStatusMessage], [request responseStatusCode]);
-}
-
-- (void)requestDidFinish:(ASIHTTPRequest *)request
-{
-    //NSLog(@"SimpleGeo Request finished: %@", [request responseString]);
-}
-
-- (void) fetchSimpleGeoPlaces
-{
-    SGPoint *here = [SGPoint pointWithLatitude:mapView.sm3dar.userLocation.coordinate.latitude
-                                     longitude:mapView.sm3dar.userLocation.coordinate.longitude];
+    NSMutableArray *annotations = [NSMutableArray arrayWithCapacity:[fetchedPlaces count]];
     
-    [simplegeo getPlacesNear:here 
-                    matching:self.searchQuery 
-                  inCategory:nil
-                      within:15.0 
-                       count:50];
-}
-
-- (void)didLoadPlaces:(SGFeatureCollection *)places
-             forQuery:(NSDictionary *)query
-{
-    
-    NSMutableArray *annotations = [NSMutableArray arrayWithCapacity:[places count]];
-    
-    for (SGFeature *place in [places features]) 
+    for (SGPlace *place in fetchedPlaces) 
     {
-        SGPoint *point = (SGPoint *)[place geometry];
-        NSString *name = [[place properties] objectForKey:@"name"];
+        SGPoint *point = place.point;
+        NSString *name = place.name;
         NSString *category = @"";
-        
-        if ([[[place properties] objectForKey:@"classifiers"] count] > 0) 
+
+
+        if (place.classifiers)
         {
-            NSDictionary *classifiers = [[[place properties] objectForKey:@"classifiers"] objectAtIndex:0];
+            NSDictionary *classifiers = [place.classifiers objectAtIndex:0];
             
-            category = [classifiers objectForKey:@"category"];
+            category = [classifiers classifierCategory];
             
-            //NSLog(@"place cat: %@", category);
-            
-            NSString *subcategory = (NSString *)[classifiers objectForKey:@"subcategory"];
+            NSString *subcategory = [classifiers classifierSubcategory];
             
             if (subcategory && ! ([subcategory isEqual:@""] ||
                                   [subcategory isEqual:[NSNull null]])) 
@@ -433,26 +405,22 @@
                 category = [NSString stringWithFormat:@"%@ : %@", category, subcategory];
             }
         }
-
-        CLLocationCoordinate2D coordinate;
-        coordinate.latitude = point.latitude;
-        coordinate.longitude = point.longitude;        
         
 #if 0
-
+        
         // Use standard marker view.
         
         MKPointAnnotation *annotation = [[[MKPointAnnotation alloc] init] autorelease];
-        annotation.coordinate = coordinate;
+        annotation.coordinate = point.coordinate;
         annotation.title = name;
         annotation.subtitle = category;
         
 #else
         
         // Use custom marker view.
-
+        
         CLLocation *location = [[[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude] autorelease];
-
+        
         SM3DARPointOfInterest *annotation = [[[SM3DARPointOfInterest alloc] initWithLocation:location properties:[place properties]] autorelease];
         annotation.title = name;
         annotation.subtitle = category;
@@ -480,6 +448,29 @@
     
     [mapView zoomMapToFit];
     [self relax];
+    
+}
+
+- (void) fetchSimpleGeoPlaces:(NSString*)searchString
+{
+    SGPoint *here = [SGPoint pointWithLat:mapView.sm3dar.userLocation.coordinate.latitude
+                                      lon:mapView.sm3dar.userLocation.coordinate.longitude];
+    
+    SGPlacesQuery *query = [SGPlacesQuery queryWithPoint:here];
+    
+    [query setSearchString:searchString];
+    
+    [simplegeo getPlacesForQuery:query
+                        callback:[SGCallback callbackWithSuccessBlock:
+                                  ^(id response) {
+                                      
+                                      NSArray *places = [NSArray arrayWithSGCollection:response type:SGCollectionTypePlaces];
+                                      [self plotSimpleGeoPlaces:places];
+                                      
+                                  } 
+                                                         failureBlock:^(NSError *error) {
+                                                             // handle failures
+                                                         }]];
 }
 
 #pragma mark -
@@ -536,7 +527,7 @@
     [self addNorthStar];
 
 //    [self add3dObjectNortheastOfUserLocation];
-    [self fetchSimpleGeoPlaces];    
+    [self fetchSimpleGeoPlaces:@"pizza"];    
 }
 
 - (void) addBirdseyeView

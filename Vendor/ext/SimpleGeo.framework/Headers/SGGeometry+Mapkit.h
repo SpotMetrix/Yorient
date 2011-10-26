@@ -1,5 +1,5 @@
 //
-//  SGGeometryCollection.h
+//  SGGeometry+Mapkit.h
 //  SimpleGeo.framework
 //
 //  Copyright (c) 2011, SimpleGeo Inc.
@@ -30,32 +30,15 @@
 
 #import "SGGeometry.h"
 
+/*!
+ * Category for SGGeometry.
+ * Adds Mapkit features for iOS
+ */
+@interface SGGeometry (Mapkit)
 
 /*!
- * Collections of Geometries.
+ * The Geometry as an array of MKOverlays
  */
-@interface SGGeometryCollection : NSObject
-{
-  @private
-    NSArray* geometries;
-}
-
-//! Collected Geometries.
-@property (retain,readonly) NSArray* geometries;
-
-/*!
- * Create a GeometryCollection from a list of Geometries.
- * @param geometries List of Geometries.
- */
-+ (SGGeometryCollection *)geometryCollectionWithGeometries:(NSArray *)geometries;
-
-/*!
- * Create a GeometryCollection from a list of Geometries.
- * @param geometries List of Geometries.
- */
-- (id)initWithGeometries:(NSArray *)geometries;
-
-//! Gets the number of geometries in this collection.
-- (NSUInteger)count;
+- (NSArray *)overlays;
 
 @end
