@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
-		A609B66F1457961800CE9C9D /* lib3DAR_v2_1_3_alpha1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A609B66E1457961800CE9C9D /* lib3DAR_v2_1_3_alpha1.a */; };
+		A60C94861457B21E00C61B3B /* lib3DAR_v2_1_3_alpha1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A60C94851457B21E00C61B3B /* lib3DAR_v2_1_3_alpha1.a */; };
 		A645425712A4E3B40014F23C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A645425612A4E3B40014F23C /* AudioToolbox.framework */; };
 		A645425912A4E3B40014F23C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A645425812A4E3B40014F23C /* CoreGraphics.framework */; };
 		A645425B12A4E3B40014F23C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A645425A12A4E3B40014F23C /* CoreLocation.framework */; };
@@ -91,7 +91,7 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Yorient_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Yorient_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Yorient-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Yorient-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
-		A609B66E1457961800CE9C9D /* lib3DAR_v2_1_3_alpha1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = lib3DAR_v2_1_3_alpha1.a; sourceTree = "<group>"; };
+		A60C94851457B21E00C61B3B /* lib3DAR_v2_1_3_alpha1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = lib3DAR_v2_1_3_alpha1.a; sourceTree = "<group>"; };
 		A645425612A4E3B40014F23C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		A645425812A4E3B40014F23C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		A645425A12A4E3B40014F23C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -209,7 +209,7 @@
 				A69C5793144BB7AE00670AE4 /* AVFoundation.framework in Frameworks */,
 				A69C57A0144BB7BE00670AE4 /* AssetsLibrary.framework in Frameworks */,
 				A69C57BA144BB7CC00670AE4 /* CoreMedia.framework in Frameworks */,
-				A609B66F1457961800CE9C9D /* lib3DAR_v2_1_3_alpha1.a in Frameworks */,
+				A60C94861457B21E00C61B3B /* lib3DAR_v2_1_3_alpha1.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,6 +278,14 @@
 				A645426612A4E3B40014F23C /* UIKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A60C94841457B21E00C61B3B /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				A60C94851457B21E00C61B3B /* lib3DAR_v2_1_3_alpha1.a */,
+			);
+			path = Lib;
 			sourceTree = "<group>";
 		};
 		A6334ACC130B7416004AFB13 /* Assets */ = {
@@ -383,9 +391,9 @@
 		A6C2F07A143CF48D00EDE309 /* 3DAR */ = {
 			isa = PBXGroup;
 			children = (
-				A6C2F07B143CF48D00EDE309 /* 3dar.plist */,
 				A6C2F07C143CF48E00EDE309 /* Assets */,
-				A6C2F08C143CF48E00EDE309 /* Lib */,
+				A60C94841457B21E00C61B3B /* Lib */,
+				A6C2F07B143CF48D00EDE309 /* 3dar.plist */,
 				A6C2F08E143CF48E00EDE309 /* SM3DAR.h */,
 				A6C2F08F143CF48E00EDE309 /* SM3DAR_keys.txt */,
 			);
@@ -426,14 +434,6 @@
 				A6C2F08B143CF48E00EDE309 /* ufo.obj */,
 			);
 			path = models;
-			sourceTree = "<group>";
-		};
-		A6C2F08C143CF48E00EDE309 /* Lib */ = {
-			isa = PBXGroup;
-			children = (
-				A609B66E1457961800CE9C9D /* lib3DAR_v2_1_3_alpha1.a */,
-			);
-			path = Lib;
 			sourceTree = "<group>";
 		};
 		A6D68FAE137A692A00402D63 /* Build Configuration */ = {

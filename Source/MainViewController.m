@@ -59,7 +59,7 @@
 
     if (desiredLocationAccuracyAttempts > 8 || mapView.sm3dar.userLocation.horizontalAccuracy <= desiredLocationAccuracy)
     {
-        NSLog(@"Acceptable location accuracy achieved.", mapView.sm3dar.userLocation.horizontalAccuracy);
+        NSLog(@"Acceptable location accuracy achieved.");
         acceptableLocationAccuracyAchieved = YES;
         [timer invalidate];
         timer = nil;
@@ -513,7 +513,7 @@
     
     // NOTE: poi is autoreleased
     
-    northStar = [[mapView.sm3dar addPointAtLatitude:latitude
+    northStar = (SM3DARPointOfInterest*)[[mapView.sm3dar addPointAtLatitude:latitude
                               longitude:longitude
                                altitude:3000.0 
                                   title:@"Polaris" 
