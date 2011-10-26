@@ -500,7 +500,7 @@
                                                      title:nil 
                                                       view:modelView] autorelease];
     
-    [mapView addAnnotation:(SM3DARPointOfInterest*)poi];  // 
+    [mapView addAnnotation:(SM3DARPointOfInterest*)poi]; 
 }
 
 - (void) addNorthStar
@@ -528,26 +528,15 @@
 
 - (IBAction) refreshButtonTapped
 {
-    if (mapView.sm3dar.camera)
-    {
-        [mapView stopCamera];
-    }
-    else
-    {
-        [mapView startCamera];
-    }
-    
-    return;
-    
     [self lookBusy];
     
     [birdseyeView setLocations:nil];
     [self.mapView removeAllAnnotations];
 
-//    [self addNorthStar];
+    [self addNorthStar];
 
 //    [self add3dObjectNortheastOfUserLocation];
-//    [self fetchSimpleGeoPlaces];    
+    [self fetchSimpleGeoPlaces];    
 }
 
 - (void) addBirdseyeView
