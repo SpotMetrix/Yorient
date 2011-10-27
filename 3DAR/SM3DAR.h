@@ -1,5 +1,6 @@
 /*
  *  3DAR Version 2.1.3
+ *  Released 2011/10/27
  *
  *  SM3DAR.h
  *
@@ -8,7 +9,9 @@
  *
  *
  * Changes since 2.1.2:
+ *   - iOS 5 support.
  *   - Fix: The camera view is no longer blacked out.
+ *   - SM3DARIconMarkerView: Setting imageName will change the icon images for both focused and unfocused states.
  */
 
 #import <MapKit/MapKit.h>
@@ -18,17 +21,13 @@
 
 /************************************************* 
  //
- // Typical SM3DARMapView usage.
+ // Typical SM3DARMapView usage when not using an .xib file.
  //
  - (void) viewDidLoad 
  {
  self.mapView = [[[SM3DARMapView alloc] initWithFrame:CGRectMake(0, 0, 320, 416)] autorelease]; 
  mapView.delegate = self;
  mapView.showsUserLocation = YES;
- 
- 
- // Only add the mapView and call init3DAR 
- // if the mapView is not already set up in an .xib file.
  
  [self.view addSubview:mapView];   
  [mapView init3DAR];
