@@ -25,29 +25,13 @@
 
 - (void) pointDidGainFocus:(SM3DARPoint *)point
 {
-    focusCalloutView.titleLabel.text = point.title;
-    
-    if ([point respondsToSelector:@selector(subtitle)])
-    {
-        focusCalloutView.subtitleLabel.text = [point performSelector:@selector(subtitle)];
-    }
-    
-    if ([point isKindOfClass:[SM3DARPointOfInterest class]])
-    {
-        SM3DARPointOfInterest *poi = (SM3DARPointOfInterest *)point;        
-        focusCalloutView.distanceLabel.text = [poi formattedDistanceFromCurrentLocationWithUnits];
-        
-                
-        // Use the point properties to determine thumbnail image.
-        
-        //NSLog(@"----- %@", poi.properties);
-        //[focusThumbView setImage:nil];
-    }
-    
+    [focusCalloutView pointDidGainFocus:point];  // IMPORTANT
 }
 
 - (void) pointDidLoseFocus:(SM3DARPoint *)point
 {
+    [focusCalloutView pointDidLoseFocus:point];  // IMPORTANT
+
     focusCalloutView.titleLabel.text = nil;
     focusCalloutView.subtitleLabel.text = nil;
     focusCalloutView.distanceLabel.text = nil;

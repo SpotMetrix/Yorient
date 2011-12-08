@@ -232,12 +232,11 @@
 	NSLog(@"POI was selected: %@", [newPOI title]);
 }
 
-
-- (void) mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+- (void) mapView:(MKMapView *)theMapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
-    NSLog(@"callout tapped");
+    id<MKAnnotation> annotation = view.annotation;
+    NSLog(@"Tapped callout with annotation: %@", annotation);
 }
-
 
 #pragma mark Sound
 - (void) initSound 
