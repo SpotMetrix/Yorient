@@ -13,7 +13,7 @@
 
 #define SG_CONSUMER_KEY @"cxu7vcXRsfSaBZGm4EZffVGRq662YCNJ"
 #define SG_CONSUMER_SECRET @"fTGANz54NXzMVQ6gwgnJcKEua4m2MLSs"
-#define IDEAL_LOCATION_ACCURACY 10.0
+#define IDEAL_LOCATION_ACCURACY 40.0
 
 
 @interface MainViewController (Private)
@@ -172,6 +172,7 @@
     [mapView removeAnnotations:mapView.annotations];
     
 	self.searchQuery = query;
+    
     search.location = mapView.sm3dar.userLocation;
     [search execute:searchQuery];    
 }
@@ -198,7 +199,16 @@
     self.searchQuery = nil;
     
     [self addNorthStar];
-    [self fetchSimpleGeoPlaces:nil];
+    
+    if (!search)
+    {
+        search = [[YahooLocalSearch alloc] initAtLocation:mapView.sm3dar.userLocation];
+        search.delegate = self;
+    }
+    
+    [self runLocalSearch:@"restaurant"];
+
+//    [self fetchSimpleGeoPlaces:nil];
     
     // TODO: Move this into 3DAR as display3darLogo
     
@@ -338,6 +348,7 @@
 
 - (void) searchDidFinishWithEmptyResults
 {
+    NSLog(@"No search results for '%@'", self.searchQuery);
     [self relax];
 }
 
@@ -352,7 +363,7 @@
                                                                               subtitle:[data objectForKey:@"subtitle"] 
                                                                                    url:nil];
         
-        //[mapView addAnnotation:poi];
+        [mapView addAnnotation:poi];
         [points addObject:poi];
         [poi release];
     }

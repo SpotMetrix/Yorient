@@ -162,13 +162,16 @@
     
 	NSArray *results = [self parseYahooMapSearchResults:response];
     
-	if (results && [results count] > 0) 
+    if (delegate)
     {
-	    [delegate searchDidFinishWithResults:results];
-    }
-    else
-    {
-        [delegate searchDidFinishWithEmptyResults];
+        if (results && [results count] > 0)
+        {
+            [delegate searchDidFinishWithResults:results];
+        }
+        else
+        {
+            [delegate searchDidFinishWithEmptyResults];
+        }
     }
 }
 
