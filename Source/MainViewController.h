@@ -11,7 +11,6 @@
 #import "AudioToolbox/AudioServices.h"
 #import "YahooLocalSearch.h"
 #import <MapKit/MapKit.h>
-#import <SimpleGeo/SimpleGeo.h>
 #import "BirdseyeView.h"
 #import "ThumbnailCalloutFocusView.h"
 
@@ -30,7 +29,6 @@
     IBOutlet ThumbnailCalloutFocusView *focusView;    
     IBOutlet UIActivityIndicatorView *spinner;
     
-    SimpleGeo *simplegeo;
     BirdseyeView *birdseyeView;
     
     IBOutlet UIButton *toggleMapButton;
@@ -44,13 +42,11 @@
 @property (nonatomic, retain) NSString *searchQuery;
 @property (nonatomic, retain) YahooLocalSearch *search;
 @property (nonatomic, retain) IBOutlet SM3DARMapView *mapView;
-@property (nonatomic, retain) SimpleGeo *simplegeo;
 
 - (void)initSound;
 - (void)playFocusSound;
 - (void)runLocalSearch:(NSString*)query;
 //- (void)addDirectionBillboardsWithFixtures;
-- (void) fetchSimpleGeoPlaces:(NSString*)searchString;
 - (IBAction) refreshButtonTapped;
 - (IBAction) toggleMapButtonTapped:(UIButton *)sender;
 - (void) addNorthStar;

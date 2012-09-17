@@ -11,8 +11,6 @@
 #import "Constants.h"
 
 
-#define SG_CONSUMER_KEY @"cxu7vcXRsfSaBZGm4EZffVGRq662YCNJ"
-#define SG_CONSUMER_SECRET @"fTGANz54NXzMVQ6gwgnJcKEua4m2MLSs"
 #define IDEAL_LOCATION_ACCURACY 40.0
 
 
@@ -25,7 +23,6 @@
 @synthesize searchQuery;
 @synthesize search;
 @synthesize mapView;
-@synthesize simplegeo;
 
 - (void)dealloc 
 {
@@ -44,7 +41,6 @@
     [spinner release];
     spinner = nil;
     
-    [simplegeo release];
     [birdseyeView release];
     
     [toggleMapButton release];
@@ -79,10 +75,7 @@
 {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) 
     {      
-        self.simplegeo = [SimpleGeo clientWithConsumerKey:SG_CONSUMER_KEY
-                                            consumerSecret:SG_CONSUMER_SECRET];
-        
-        desiredLocationAccuracy = IDEAL_LOCATION_ACCURACY / 2.0;        
+        desiredLocationAccuracy = IDEAL_LOCATION_ACCURACY / 2.0;
     }
     
     return self;
@@ -208,8 +201,6 @@
     
     [self runLocalSearch:@"restaurant"];
 
-//    [self fetchSimpleGeoPlaces:nil];
-    
     // TODO: Move this into 3DAR as display3darLogo
     
     CGFloat logoCenterX = mapView.sm3dar.view.frame.size.width - 10 - (mapView.sm3dar.iconLogo.frame.size.width / 2);
@@ -388,101 +379,6 @@
 
 }
 
-#pragma mark SimpleGeo
-
-- (void) plotSimpleGeoPlaces:(NSArray*)fetchedPlaces
-{
-    NSMutableArray *annotations = [NSMutableArray arrayWithCapacity:[fetchedPlaces count]];
-    
-    for (SGPlace *place in fetchedPlaces) 
-    {
-        SGPoint *point = place.point;
-        NSString *name = place.name;
-        NSString *category = @"";
-
-
-        if (place.classifiers)
-        {
-            NSDictionary *classifiers = [place.classifiers objectAtIndex:0];
-            
-            category = [classifiers classifierCategory];
-            
-            NSString *subcategory = [classifiers classifierSubcategory];
-            
-            if (subcategory && ! ([subcategory isEqual:@""] ||
-                                  [subcategory isEqual:[NSNull null]])) 
-            {
-                category = [NSString stringWithFormat:@"%@ : %@", category, subcategory];
-            }
-        }
-        
-#if 0
-        
-        // Use standard marker view.
-        
-        MKPointAnnotation *annotation = [[[MKPointAnnotation alloc] init] autorelease];
-        annotation.coordinate = point.coordinate;
-        annotation.title = name;
-        annotation.subtitle = category;
-        
-#else
-        
-        // Use custom marker view.
-        
-        CLLocation *location = [[[CLLocation alloc] initWithLatitude:point.latitude longitude:point.longitude] autorelease];
-        
-        SM3DARPointOfInterest *annotation = [[[SM3DARPointOfInterest alloc] initWithLocation:location properties:[place properties]] autorelease];
-        annotation.title = name;
-        annotation.subtitle = category;
-        
-#endif
-        
-        [annotations addObject:annotation];
-    }
-    
-    NSLog(@"Adding annotations");
-    [birdseyeView setLocations:annotations];
-    [mapView addAnnotations:annotations];
-    
-    
-    // Temporary workaround:
-    // Hide the simple callout view
-    // because yorient uses its own focusView.
-    for (SM3DARPointOfInterest *poi in [mapView.sm3dar pointsOfInterest])
-    {
-        if ([poi.view isKindOfClass:[SM3DARIconMarkerView class]])
-        {
-            ((SM3DARIconMarkerView *)poi.view).callout = nil;
-        }
-    }
-    
-    [mapView zoomMapToFit];
-    [self relax];
-    
-}
-
-- (void) fetchSimpleGeoPlaces:(NSString*)searchString
-{
-    SGPoint *here = [SGPoint pointWithLat:mapView.sm3dar.userLocation.coordinate.latitude
-                                      lon:mapView.sm3dar.userLocation.coordinate.longitude];
-    
-    SGPlacesQuery *query = [SGPlacesQuery queryWithPoint:here];
-    
-    [query setSearchString:searchString];
-    
-    [simplegeo getPlacesForQuery:query
-                        callback:[SGCallback callbackWithSuccessBlock:
-                                  ^(id response) {
-                                      
-                                      NSArray *places = [NSArray arrayWithSGCollection:response type:SGCollectionTypePlaces];
-                                      [self plotSimpleGeoPlaces:places];
-                                      
-                                  } 
-                                                         failureBlock:^(NSError *error) {
-                                                             // handle failures
-                                                         }]];
-}
-
 #pragma mark -
 
 - (void) add3dObjectNortheastOfUserLocation 
@@ -537,7 +433,6 @@
     [self addNorthStar];
 
 //    [self add3dObjectNortheastOfUserLocation];
-    [self fetchSimpleGeoPlaces:@"pizza"];    
 }
 
 - (void) addBirdseyeView
