@@ -15,33 +15,17 @@
 #import "ThumbnailCalloutFocusView.h"
 
 @interface MainViewController : UIViewController <MKMapViewDelegate, SM3DARDelegate, CLLocationManagerDelegate, SearchDelegate> 
-{
-	SystemSoundID focusSound;
-	NSString *searchQuery;
-    YahooLocalSearch *search;
-    BOOL sm3darInitialized;
-    UIView *focusedMarker;
-    NSArray *searchStrings;
-    NSInteger currentSearchIndex;
-
-    IBOutlet SM3DARMapView *mapView;
-    IBOutlet UIView *hudView;
-    IBOutlet ThumbnailCalloutFocusView *focusView;    
-    IBOutlet UIActivityIndicatorView *spinner;
-    
-    BirdseyeView *birdseyeView;
-    
-    IBOutlet UIButton *toggleMapButton;
-    SM3DARPointOfInterest *northStar;
-
-    CLLocationAccuracy desiredLocationAccuracy;
-    NSInteger desiredLocationAccuracyAttempts;
-    BOOL acceptableLocationAccuracyAchieved;
-}
+{}
 
 @property (nonatomic, retain) NSString *searchQuery;
 @property (nonatomic, retain) YahooLocalSearch *search;
 @property (nonatomic, retain) IBOutlet SM3DARMapView *mapView;
+@property (nonatomic, retain) IBOutlet UIView *hudView;
+@property (nonatomic, retain) IBOutlet ThumbnailCalloutFocusView *focusView;
+@property (nonatomic, retain) BirdseyeView *birdseyeView;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
+@property (nonatomic, retain) IBOutlet UIButton *toggleMapButton;
+@property (nonatomic, retain) IBOutlet UIButton *refreshButton;
 
 - (void)initSound;
 - (void)playFocusSound;

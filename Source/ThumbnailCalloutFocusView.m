@@ -11,8 +11,10 @@
 
 @implementation ThumbnailCalloutFocusView
 
+@synthesize focusCalloutView = _focusCalloutView;
+@synthesize focusThumbView = _focusThumbView;
 
-- (void) dealloc 
+- (void) dealloc
 {
     [focusThumbView release];
     focusThumbView = nil;
@@ -25,22 +27,22 @@
 
 - (void) pointDidGainFocus:(SM3DARPoint *)point
 {
-    [focusCalloutView pointDidGainFocus:point];  // IMPORTANT
+    [self.focusCalloutView pointDidGainFocus:point];  // IMPORTANT
 }
 
 - (void) pointDidLoseFocus:(SM3DARPoint *)point
 {
-    [focusCalloutView pointDidLoseFocus:point];  // IMPORTANT
+    [self.focusCalloutView pointDidLoseFocus:point];  // IMPORTANT
 
-    focusCalloutView.titleLabel.text = nil;
-    focusCalloutView.subtitleLabel.text = nil;
-    focusCalloutView.distanceLabel.text = nil;
-    [focusThumbView setImage:nil];
+    self.focusCalloutView.titleLabel.text = nil;
+    self.focusCalloutView.subtitleLabel.text = nil;
+    self.focusCalloutView.distanceLabel.text = nil;
+    [self.focusThumbView setImage:nil];
 }
 
 - (void) setCalloutDelegate:(id<SM3DARCalloutViewDelegate>)calloutDelegate
 {
-    focusCalloutView.delegate = calloutDelegate;
+    self.focusCalloutView.delegate = calloutDelegate;
     
 }
 

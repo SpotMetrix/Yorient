@@ -15,6 +15,9 @@
     IBOutlet SM3DARDetailCalloutView *focusCalloutView;
 }
 
+@property (assign, nonatomic) IBOutlet SM3DARDetailCalloutView *focusCalloutView;
+@property (assign, nonatomic) IBOutlet UIImageView *focusThumbView;
+
 - (void) setCalloutDelegate:(id<SM3DARCalloutViewDelegate>)calloutDelegate;
 
 @end

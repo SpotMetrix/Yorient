@@ -14,59 +14,73 @@
 #define IDEAL_LOCATION_ACCURACY 40.0
 
 
-@interface MainViewController (Private)
-- (void) addBirdseyeView;
+@interface MainViewController ()
+{
+	SystemSoundID focusSound;
+    BOOL sm3darInitialized;
+    BOOL acceptableLocationAccuracyAchieved;
+    CLLocationAccuracy desiredLocationAccuracy;
+    NSInteger desiredLocationAccuracyAttempts;
+}
+
+@property (nonatomic, retain) SM3DARCalloutView *calloutView;
+@property (nonatomic, retain) SM3DARPointOfInterest *northStar;
+
 @end
+
+
 
 @implementation MainViewController
 
-@synthesize searchQuery;
-@synthesize search;
-@synthesize mapView;
+// Public properties
+@synthesize searchQuery = _searchQuery;
+@synthesize search = _search;
+@synthesize mapView = _mapView;
+@synthesize birdseyeView = _birdseyeView;
+@synthesize spinner = _spinner;
+@synthesize toggleMapButton = _toggleMapButton;
+
+// Private properties
+@synthesize calloutView = _calloutView;
+@synthesize northStar = _northStar;
+
 
 - (void)dealloc 
 {
-	[searchQuery release];
-    [search release];
+	self.searchQuery = nil;
+    self.search = nil;
+    self.mapView = nil;
+    self.hudView = nil;
+    self.birdseyeView = nil;
+    self.focusView = nil;
+    self.spinner = nil;
+    self.toggleMapButton = nil;
     
-    [mapView release];
-    mapView = nil;
+    self.northStar = nil;
+    self.calloutView = nil;
     
-    [hudView release];
-    hudView = nil;
-    
-    [focusView release];
-    focusView = nil;
-    
-    [spinner release];
-    spinner = nil;
-    
-    [birdseyeView release];
-    
-    [toggleMapButton release];
-    [northStar release];
-    
+    [_refreshButton release];
 	[super dealloc];
 }
 
 - (void) reduceDesiredLocationAccuracy:(NSTimer*)timer
 {
-    NSLog(@"Current location accuracy: %.0f", mapView.sm3dar.userLocation.horizontalAccuracy);
+    NSLog(@"Current location accuracy: %.0f", self.mapView.sm3dar.userLocation.horizontalAccuracy);
 
-    if (desiredLocationAccuracyAttempts > 8 || mapView.sm3dar.userLocation.horizontalAccuracy <= desiredLocationAccuracy)
+    if (desiredLocationAccuracyAttempts > 8 || self.mapView.sm3dar.userLocation.horizontalAccuracy <= desiredLocationAccuracy)
     {
         NSLog(@"Acceptable location accuracy achieved.");
         acceptableLocationAccuracyAchieved = YES;
         [timer invalidate];
         timer = nil;
-        [mapView.sm3dar.locationManager setDesiredAccuracy:kCLLocationAccuracyBestForNavigation];        
+        [self.mapView.sm3dar.locationManager setDesiredAccuracy:kCLLocationAccuracyBestForNavigation];
         [self loadPoints];
     }
     else
     {
         desiredLocationAccuracy *= 1.5;
         NSLog(@"Setting desired location accuracy to %.0f", desiredLocationAccuracy);
-        [mapView.sm3dar.locationManager setDesiredAccuracy:desiredLocationAccuracy];        
+        [self.mapView.sm3dar.locationManager setDesiredAccuracy:desiredLocationAccuracy];
         desiredLocationAccuracyAttempts++;
     }
 }
@@ -83,7 +97,7 @@
 
 - (void) lookBusy
 {
-    [spinner startAnimating];
+    [self.spinner startAnimating];
         
     CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:@"transform"];
     CATransform3D xfm = CATransform3DMakeRotation(M_PI, 0, 0, 1.0);
@@ -98,76 +112,124 @@
     anim.removedOnCompletion = NO;
     anim.autoreverses = NO;
     
-    [[spinner layer] addAnimation:anim forKey:@"flip"];
+    [[self.spinner layer] addAnimation:anim forKey:@"flip"];
 
+}
+
+- (void) repositionControls
+{
+    CGPoint p = self.refreshButton.center;
+    p.y = self.mapView.sm3dar.iconLogo.center.y;
+    self.refreshButton.center = p;
+    
+    p = self.toggleMapButton.center;
+    p.y = self.mapView.sm3dar.iconLogo.center.y;
+    self.toggleMapButton.center = p;
 }
 
 - (void) relax
 {
-    [spinner stopAnimating];
-    [[spinner layer] removeAnimationForKey:@"flip"];
+    [self.spinner stopAnimating];
+    [[self.spinner layer] removeAnimationForKey:@"flip"];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self repositionControls];
 }
 
 - (void) viewDidAppear:(BOOL)animated 
 {
 	[super viewDidAppear:animated];
     
-    toggleMapButton.hidden = [((NSString*)[[NSUserDefaults standardUserDefaults] objectForKey:@"3darMapMode"]) isEqualToString:@"auto"];
+    self.toggleMapButton.hidden = [((NSString*)[[NSUserDefaults standardUserDefaults] objectForKey:@"3darMapMode"]) isEqualToString:@"auto"];
     
-    [mapView.sm3dar startCamera];
+    [self.mapView.sm3dar startCamera];
 }
 
 - (void) viewDidLoad 
 {
 	[super viewDidLoad];
     
+    self.calloutView = nil;
+    
     [self initSound];
     self.view.backgroundColor = [UIColor blackColor];
     
-    if (hudView)
+    if (self.hudView)
     {
-//        mapView.sm3dar.hudView = hudView;
-//        hudView.hidden = YES;
-    }    
-    
+        self.mapView.hudView = self.hudView;
+        self.hudView.hidden = YES;  // The HUD will appear when the map disappears.
+    }
+
+
     [self addBirdseyeView];
     
-    mapView.sm3dar.focusView = focusView;
-    
-    [focusView setCalloutDelegate:mapView];
+//    [focusView setCalloutDelegate:self.mapView];
+//    focusView.focusCalloutView.frame = CGRectMake(0, 180, 300, 66);
+//    self.mapView.sm3dar.focusView = focusView;
+    self.mapView.sm3dar.focusView = nil;
+//    self.hudView = nil;
 
-    [self lookBusy];
-    [self.view bringSubviewToFront:hudView];
-    [self.view bringSubviewToFront:spinner];
+//    [self lookBusy];
+    [self.view bringSubviewToFront:self.hudView];
+    [self.view bringSubviewToFront:self.spinner];
     
     [self.view setFrame:[UIScreen mainScreen].bounds];
-    [mapView.sm3dar setFrame:self.view.bounds];
-}
+    [self.mapView.sm3dar setFrame:self.view.bounds];
 
-/*
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    self.view.frame = [UIScreen mainScreen].applicationFrame;
-    mapView.frame = self.view.frame;
-    [mapView.sm3dar setFrame:self.view.frame];
-//    [mapView.sm3dar.view addSubview:mapView.sm3dar.iconLogo];
-    
-    self.view.backgroundColor = [UIColor blueColor];
 }
-*/
 
 - (void)runLocalSearch:(NSString*)query 
 {
+    self.searchQuery = query;
     [self lookBusy];
+    
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    
+    
+    BOOL locationAvailable = (self.mapView.sm3dar.locationManager && self.mapView.sm3dar.locationManager.location);
 
-    [mapView removeAnnotations:mapView.annotations];
-    
-	self.searchQuery = query;
-    
-    search.location = mapView.sm3dar.userLocation;
-    [search execute:searchQuery];    
+    if (locationAvailable)
+    {
+        
+        self.search.location = self.mapView.sm3dar.userLocation;
+        [self.search execute:self.searchQuery];
+    }
+    else
+    {
+        // Load a dummy data.
+        
+        NSMutableArray *points = [NSMutableArray array];
+        CLLocationDegrees latitude = self.mapView.sm3dar.userLocation.coordinate.latitude + 0.001;
+        CLLocationDegrees longitude = self.mapView.sm3dar.userLocation.coordinate.longitude;
+
+        CLLocation *location = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
+        SM3DARPointOfInterest *poi = [[SM3DARPointOfInterest alloc] initWithLocation:location
+                                                                               title:@"Dummy 1"
+                                                                            subtitle:@"Location unavailable"
+                                                                                 url:nil];
+        
+        [points addObject:poi];
+        
+        latitude = self.mapView.sm3dar.userLocation.coordinate.latitude + 0.002;
+        longitude = self.mapView.sm3dar.userLocation.coordinate.longitude + 0.0003;
+        location = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
+        poi = [[SM3DARPointOfInterest alloc] initWithLocation:location
+                                                        title:@"Dummy 2"
+                                                     subtitle:@"Location unavailable"
+                                                          url:nil];
+        
+        [points addObject:poi];
+        
+        [self.mapView addAnnotations:points];
+        [self.birdseyeView setLocations:points];
+        [self.mapView zoomMapToFit];
+        [self relax];
+    }
+
 }
 
 - (void)didReceiveMemoryWarning 
@@ -178,6 +240,7 @@
 
 - (void)viewDidUnload 
 {
+    [self setRefreshButton:nil];
     NSLog(@"viewDidUnload");
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
@@ -187,25 +250,25 @@
 
 - (void) loadPoints
 {
-    [self lookBusy];
+//    [self lookBusy];
 
     self.searchQuery = nil;
     
     [self addNorthStar];
     
-    if (!search)
+    if (!self.search)
     {
-        search = [[YahooLocalSearch alloc] initAtLocation:mapView.sm3dar.userLocation];
-        search.delegate = self;
+        self.search = [[YahooLocalSearch alloc] initAtLocation:self.mapView.sm3dar.userLocation];
+        self.search.delegate = self;
     }
     
     [self runLocalSearch:@"restaurant"];
 
     // TODO: Move this into 3DAR as display3darLogo
     
-    CGFloat logoCenterX = mapView.sm3dar.view.frame.size.width - 10 - (mapView.sm3dar.iconLogo.frame.size.width / 2);
-    CGFloat logoCenterY = mapView.sm3dar.view.frame.size.height - 10 - (mapView.sm3dar.iconLogo.frame.size.height / 2);                           
-    mapView.sm3dar.iconLogo.center = CGPointMake(logoCenterX, logoCenterY);    
+    CGFloat logoCenterX = self.mapView.sm3dar.view.frame.size.width - 10 - (self.mapView.sm3dar.iconLogo.frame.size.width / 2);
+    CGFloat logoCenterY = self.mapView.sm3dar.view.frame.size.height - 10 - (self.mapView.sm3dar.iconLogo.frame.size.height / 2);
+    self.mapView.sm3dar.iconLogo.center = CGPointMake(logoCenterX, logoCenterY);
 }
 
 - (void) sm3darLoadPoints:(SM3DARController *)sm3dar
@@ -213,7 +276,7 @@
     // 3DAR initialization is complete, 
     // but the first location update may not be very accurate.
 
-    if (mapView.sm3dar.userLocation.horizontalAccuracy <= IDEAL_LOCATION_ACCURACY)
+    if (self.mapView.sm3dar.userLocation.horizontalAccuracy <= IDEAL_LOCATION_ACCURACY)
     {
         [self loadPoints];
     }
@@ -223,9 +286,15 @@
     }
 }
 
+CGFloat _alt = 4;
+
 - (void) sm3dar:(SM3DARController *)sm3dar didChangeFocusToPOI:(SM3DARPoint *)newPOI fromPOI:(SM3DARPoint *)oldPOI
 {
 	[self playFocusSound];
+//    [sm3dar setCameraAltitudeMeters:_alt+=20];
+//    NSLog(@"alt: %.0f", _alt);
+    
+
 }
 
 - (void) sm3dar:(SM3DARController *)sm3dar didChangeSelectionToPOI:(SM3DARPoint *)newPOI fromPOI:(SM3DARPoint *)oldPOI
@@ -233,10 +302,26 @@
 	NSLog(@"POI was selected: %@", [newPOI title]);
 }
 
+- (void) showDetails:(id)sender
+{
+    id<MKAnnotation> annotation = nil;
+    
+    if ([sender conformsToProtocol:@protocol(MKAnnotation)])
+    {
+        annotation = (id<MKAnnotation>)sender;
+        NSLog(@"Showing annotation details for '%@'", annotation.title);
+    }
+    else
+    {
+        NSLog(@"TODO: pass annotation when callout is tapped.");
+    }
+}
+
 - (void) mapView:(MKMapView *)theMapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
     id<MKAnnotation> annotation = view.annotation;
     NSLog(@"Tapped callout with annotation: %@", annotation);
+    [self showDetails:annotation];
 }
 
 #pragma mark Sound
@@ -260,10 +345,10 @@
 {
     if (!acceptableLocationAccuracyAchieved)
     {
-        [mapView zoomMapToFit];
+        [self.mapView zoomMapToFit];
     }
 
-    birdseyeView.centerLocation = newLocation;
+    self.birdseyeView.centerLocation = newLocation;
     
     
     // When moving quickly along a path
@@ -344,7 +429,9 @@
 }
 
 - (void) searchDidFinishWithResults:(NSArray*)results;
-{    
+{
+    [self.mapView.sm3dar setCameraAltitudeMeters:80];
+
     NSMutableArray *points = [NSMutableArray arrayWithCapacity:[results count]];
     
     for (NSDictionary *data in results)
@@ -354,29 +441,30 @@
                                                                               subtitle:[data objectForKey:@"subtitle"] 
                                                                                    url:nil];
         
-        [mapView addAnnotation:poi];
+//        [self.mapView addAnnotation:poi];
         [points addObject:poi];
         [poi release];
     }
     
-    [mapView addAnnotations:points];
-
-//    [mapView performSelectorOnMainThread:@selector(zoomMapToFit) withObject:nil waitUntilDone:YES];
-//    [mapView addBackground];
-    [mapView zoomMapToFit];
+    [self.mapView addAnnotations:points];
+    [self.birdseyeView setLocations:points];
+    [self.mapView zoomMapToFit];
     [self relax];
 }
 
 - (void) sm3darDidShowMap:(SM3DARController *)sm3dar
 {
-//    hudView.hidden = YES;
+    self.hudView.hidden = YES;
+    [self.mapView addSubview:self.refreshButton];
+    [self.mapView addSubview:self.toggleMapButton];
 }
 
 - (void) sm3darDidHideMap:(SM3DARController *)sm3dar
 {
-//    hudView.hidden = NO;
-//    [hudView addSubview:mapView.sm3dar.iconLogo];
-
+    [self.hudView addSubview:self.mapView.sm3dar.iconLogo];
+    [self.hudView addSubview:self.refreshButton];
+    [self.hudView addSubview:self.toggleMapButton];
+    self.hudView.hidden = NO;
 }
 
 #pragma mark -
@@ -385,70 +473,63 @@
 {
     SM3DARTexturedGeometryView *modelView = [[[SM3DARTexturedGeometryView alloc] initWithOBJ:@"star.obj" textureNamed:nil] autorelease];
     
-    CLLocationDegrees latitude = mapView.sm3dar.userLocation.coordinate.latitude + 0.0001;
-    CLLocationDegrees longitude = mapView.sm3dar.userLocation.coordinate.longitude + 0.0001;
+    CLLocationDegrees latitude = self.mapView.sm3dar.userLocation.coordinate.latitude + 0.0001;
+    CLLocationDegrees longitude = self.mapView.sm3dar.userLocation.coordinate.longitude + 0.0001;
 
     
     // Add a point with a 3D 
     
-    SM3DARPoint *poi = [[mapView.sm3dar addPointAtLatitude:latitude
+    SM3DARPoint *poi = [[self.mapView.sm3dar addPointAtLatitude:latitude
                                                  longitude:longitude
                                                   altitude:0 
                                                      title:nil 
                                                       view:modelView] autorelease];
     
-    [mapView addAnnotation:(SM3DARPointOfInterest*)poi]; 
+    [self.mapView addAnnotation:(SM3DARPointOfInterest*)poi];
 }
 
 - (void) addNorthStar
 {
     UIImageView *star = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"polaris.png"]] autorelease];
     
-    CLLocationDegrees latitude = mapView.sm3dar.userLocation.coordinate.latitude + 0.1;
-    CLLocationDegrees longitude = mapView.sm3dar.userLocation.coordinate.longitude;
+    CLLocationDegrees latitude = self.mapView.sm3dar.userLocation.coordinate.latitude + 0.1;
+    CLLocationDegrees longitude = self.mapView.sm3dar.userLocation.coordinate.longitude;
     
     
     // NOTE: poi is autoreleased
     
-    northStar = (SM3DARPointOfInterest*)[[mapView.sm3dar addPointAtLatitude:latitude
+    self.northStar = (SM3DARPointOfInterest*)[[self.mapView.sm3dar addPointAtLatitude:latitude
                               longitude:longitude
                                altitude:3000.0 
                                   title:@"Polaris" 
                                    view:star] retain];
     
-    northStar.canReceiveFocus = NO;
+    self.northStar.canReceiveFocus = NO;
     
     // 3DAR bug: addPointAtLatitude:longitude:altitude:title:view should add the point, not just init it.  Doh!
-    [mapView.sm3dar addPoint:northStar];
+    [self.mapView.sm3dar addPoint:self.northStar];
 }
 
 
 - (IBAction) refreshButtonTapped
 {
-    [self lookBusy];
-    
-    [birdseyeView setLocations:nil];
-    [self.mapView removeAllAnnotations];
-
-    [self addNorthStar];
-
-//    [self add3dObjectNortheastOfUserLocation];
+    [self runLocalSearch:self.searchQuery];
 }
 
 - (void) addBirdseyeView
 {
     CGFloat birdseyeViewRadius = 70.0;
 
-    birdseyeView = [[BirdseyeView alloc] initWithLocations:nil
-                                                    around:mapView.sm3dar.userLocation 
+    self.birdseyeView = [[BirdseyeView alloc] initWithLocations:nil
+                                                    around:self.mapView.sm3dar.userLocation
                                             radiusInPixels:birdseyeViewRadius];
     
-    birdseyeView.center = CGPointMake(self.view.frame.size.width - (birdseyeViewRadius) - 10, 
+    self.birdseyeView.center = CGPointMake(self.view.frame.size.width - (birdseyeViewRadius) - 10,
                                       10 + (birdseyeViewRadius));
     
-    [self.view addSubview:birdseyeView];
+    [self.view addSubview:self.birdseyeView];
     
-    mapView.sm3dar.compassView = birdseyeView;    
+    self.mapView.sm3dar.compassView = self.birdseyeView;
 }
 
 - (IBAction) toggleMapButtonTapped:(UIButton *)sender
@@ -457,11 +538,11 @@
     
     if (sender.selected)
     {
-        [mapView.sm3dar hideMap];
+        [self.mapView.sm3dar hideMap];
     }
     else
     {
-        [mapView.sm3dar showMap];
+        [self.mapView.sm3dar showMap];
     }
 }
 
@@ -489,17 +570,17 @@
     newPOI.gearPosition = poi.gearPosition;
     
 
-    id oldAnnotation = [mapView annotationForPoint:poi];
+    id oldAnnotation = [self.mapView annotationForPoint:poi];
     
     if (oldAnnotation)
     {
-        [mapView removeAnnotation:oldAnnotation];
-        [mapView addAnnotation:newPOI];
+        [self.mapView removeAnnotation:oldAnnotation];
+        [self.mapView addAnnotation:newPOI];
     }
     else
     {
-        [mapView.sm3dar removePointOfInterest:poi];
-        [mapView.sm3dar addPointOfInterest:newPOI];
+        [self.mapView.sm3dar removePointOfInterest:poi];
+        [self.mapView.sm3dar addPointOfInterest:newPOI];
     }
     
     [newLocation release];
@@ -512,6 +593,70 @@
 {
     NSLog(@"Main view touched");
     [self.nextResponder touchesBegan:touches withEvent:event];
+}
+*/
+
+- (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    MKAnnotationView *annotationView = nil;
+    
+    // if it's the user location, just return nil.
+    if ([annotation isKindOfClass:[MKUserLocation class]])
+        return nil;
+    
+    if ([annotation isKindOfClass:[SM3DARPointOfInterest class]])
+    {
+        // try to dequeue an existing pin view first
+        static NSString *ReusableAnnotationIdentifier = @"reusableAnnotationIdentifier";
+        
+        MKPinAnnotationView *pinView = (MKPinAnnotationView *)[theMapView dequeueReusableAnnotationViewWithIdentifier:ReusableAnnotationIdentifier];
+        
+        if (!pinView)
+        {
+            // if an existing pin view was not available, create one
+            MKPinAnnotationView *customPinView = [[[MKPinAnnotationView alloc]
+                                                   initWithAnnotation:annotation reuseIdentifier:ReusableAnnotationIdentifier] autorelease];
+            
+            customPinView.pinColor = MKPinAnnotationColorPurple;
+            customPinView.animatesDrop = YES;
+            customPinView.canShowCallout = YES;
+            
+            // add a detail disclosure button to the callout which will open a new view controller page
+            //
+            // note: you can assign a specific call out accessory view, or as MKMapViewDelegate you can implement:
+            //  - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control;
+            //
+            UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+            [rightButton addTarget:self
+                            action:@selector(showDetails:)
+                  forControlEvents:UIControlEventTouchUpInside];
+            
+            customPinView.rightCalloutAccessoryView = rightButton;
+            
+            return customPinView;
+        }
+        else
+        {
+            pinView.annotation = annotation;
+        }
+        
+        annotationView = pinView;
+    }
+    
+    return annotationView;
+}
+
+/*
+- (SM3DARCalloutView*) sm3dar:(SM3DARController*)sm3dar calloutViewForPoint:(SM3DARPoint*)point
+{
+    if (self.calloutView == nil)
+    {
+        self.calloutView = [[SM3DARDetailCalloutView alloc] initWithFrame:CGRectZero];
+        self.calloutView.centerOffset = CGPointMake(0, 50);
+        NSLog(@"Initialized new callout view of type '%@'", [self.calloutView class]);
+    }
+    
+    return self.calloutView;
 }
 */
 

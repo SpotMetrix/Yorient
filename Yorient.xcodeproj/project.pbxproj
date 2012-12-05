@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		A618BB9A1607DE7300755CE7 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A618BB991607DE7300755CE7 /* Default-568h@2x.png */; };
-		A618BB9C1607DE8A00755CE7 /* lib3DAR_v2_2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A618BB9B1607DE8A00755CE7 /* lib3DAR_v2_2.a */; };
 		A645425712A4E3B40014F23C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A645425612A4E3B40014F23C /* AudioToolbox.framework */; };
 		A645425912A4E3B40014F23C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A645425812A4E3B40014F23C /* CoreGraphics.framework */; };
 		A645425B12A4E3B40014F23C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A645425A12A4E3B40014F23C /* CoreLocation.framework */; };
@@ -36,6 +35,7 @@
 		A6622C0F137A21E30002E03D /* NSDictionary+BSJSONAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A6622BBE137A21E30002E03D /* NSDictionary+BSJSONAdditions.m */; };
 		A6622C10137A21E30002E03D /* NSScanner+BSJSONAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A6622BC0137A21E30002E03D /* NSScanner+BSJSONAdditions.m */; };
 		A6622C11137A21E30002E03D /* NSString+BSJSONAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A6622BC2137A21E30002E03D /* NSString+BSJSONAdditions.m */; };
+		A671BD5A166FCAF300C19F6A /* lib3DAR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A671BD59166FCAF300C19F6A /* lib3DAR.a */; };
 		A67F63D213FF3A06005258A9 /* polaris@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A67F63D013FF3A06005258A9 /* polaris@2x.png */; };
 		A67F63D313FF3A06005258A9 /* polaris.png in Resources */ = {isa = PBXBuildFile; fileRef = A67F63D113FF3A06005258A9 /* polaris.png */; };
 		A69C5793144BB7AE00670AE4 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A69C5792144BB7AE00670AE4 /* AVFoundation.framework */; };
@@ -91,7 +91,6 @@
 		32CA4F630368D1EE00C91783 /* Yorient_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Yorient_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Yorient-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Yorient-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		A618BB991607DE7300755CE7 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		A618BB9B1607DE8A00755CE7 /* lib3DAR_v2_2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = lib3DAR_v2_2.a; sourceTree = "<group>"; };
 		A645425612A4E3B40014F23C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		A645425812A4E3B40014F23C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		A645425A12A4E3B40014F23C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -131,6 +130,7 @@
 		A6622BC0137A21E30002E03D /* NSScanner+BSJSONAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSScanner+BSJSONAdditions.m"; sourceTree = "<group>"; };
 		A6622BC1137A21E30002E03D /* NSString+BSJSONAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+BSJSONAdditions.h"; sourceTree = "<group>"; };
 		A6622BC2137A21E30002E03D /* NSString+BSJSONAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+BSJSONAdditions.m"; sourceTree = "<group>"; };
+		A671BD59166FCAF300C19F6A /* lib3DAR.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = lib3DAR.a; sourceTree = "<group>"; };
 		A67F63D013FF3A06005258A9 /* polaris@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "polaris@2x.png"; sourceTree = "<group>"; };
 		A67F63D113FF3A06005258A9 /* polaris.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = polaris.png; sourceTree = "<group>"; };
 		A69C5792144BB7AE00670AE4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -205,7 +205,7 @@
 				A69C5793144BB7AE00670AE4 /* AVFoundation.framework in Frameworks */,
 				A69C57A0144BB7BE00670AE4 /* AssetsLibrary.framework in Frameworks */,
 				A69C57BA144BB7CC00670AE4 /* CoreMedia.framework in Frameworks */,
-				A618BB9C1607DE8A00755CE7 /* lib3DAR_v2_2.a in Frameworks */,
+				A671BD5A166FCAF300C19F6A /* lib3DAR.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,7 +279,7 @@
 		A60C94841457B21E00C61B3B /* Lib */ = {
 			isa = PBXGroup;
 			children = (
-				A618BB9B1607DE8A00755CE7 /* lib3DAR_v2_2.a */,
+				A671BD59166FCAF300C19F6A /* lib3DAR.a */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -589,6 +589,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/3DAR/Lib\"",
+					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/SM3DAR-dpowqirbrbycxcaczextffmwjygz/Build/Products/Debug-iphoneos\"",
 				);
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -618,6 +619,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/3DAR/Lib\"",
+					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/SM3DAR-dpowqirbrbycxcaczextffmwjygz/Build/Products/Debug-iphoneos\"",
 				);
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -635,14 +637,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = Yorient;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

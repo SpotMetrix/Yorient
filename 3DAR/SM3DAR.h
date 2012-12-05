@@ -1,5 +1,5 @@
 /*
- *  3DAR Version 2.2
+ *  3DAR Version 2.2.1
  *
  *  SM3DAR.h
  *
@@ -32,7 +32,7 @@
  [mapView init3DAR];
  }
  
- - (void) sm3darLoadPoints:(SM3DARController *)sm3dar
+ - (void) sm3darLoadPoints:(SM3DARController*)sm3dar
  {
  [mapView addAnnotation:myAnnotation];
  }
@@ -40,6 +40,7 @@
 
 @protocol SM3DARPointProtocol;
 @class SM3DARController;
+@class SM3DARCalloutView;
 typedef NSObject<SM3DARPointProtocol> SM3DARPoint;
 
 
@@ -48,20 +49,21 @@ typedef NSObject<SM3DARPointProtocol> SM3DARPoint;
 //
 @protocol SM3DARDelegate
 @optional
-- (void) sm3darViewDidLoad:(SM3DARController *)sm3dar;
-- (void) sm3darLoadPoints:(SM3DARController *)sm3dar;
-- (void) sm3dar:(SM3DARController *)sm3dar didChangeFocusToPOI:(SM3DARPoint*)newPOI fromPOI:(SM3DARPoint*)oldPOI;
-- (void) sm3dar:(SM3DARController *)sm3dar didChangeSelectionToPOI:(SM3DARPoint*)newPOI fromPOI:(SM3DARPoint*)oldPOI;
-- (void) sm3dar:(SM3DARController *)sm3dar didChangeOrientationYaw:(CGFloat)yaw pitch:(CGFloat)pitch roll:(CGFloat)roll;
-- (void) sm3darWillInitializeOrigin:(SM3DARController *)sm3dar;
-- (void) sm3darLogoWasTapped:(SM3DARController *)sm3dar;
-- (void) sm3darDidShowMap:(SM3DARController *)sm3dar;
-- (void) sm3darDidHideMap:(SM3DARController *)sm3dar;
+- (void) sm3darViewDidLoad:(SM3DARController*)sm3dar;
+- (void) sm3darLoadPoints:(SM3DARController*)sm3dar;
+- (void) sm3dar:(SM3DARController*)sm3dar didChangeFocusToPOI:(SM3DARPoint*)newPOI fromPOI:(SM3DARPoint*)oldPOI;
+- (void) sm3dar:(SM3DARController*)sm3dar didChangeSelectionToPOI:(SM3DARPoint*)newPOI fromPOI:(SM3DARPoint*)oldPOI;
+- (void) sm3dar:(SM3DARController*)sm3dar didChangeOrientationYaw:(CGFloat)yaw pitch:(CGFloat)pitch roll:(CGFloat)roll;
+- (void) sm3darWillInitializeOrigin:(SM3DARController*)sm3dar;
+- (void) sm3darLogoWasTapped:(SM3DARController*)sm3dar;
+- (void) sm3darDidShowMap:(SM3DARController*)sm3dar;
+- (void) sm3darDidHideMap:(SM3DARController*)sm3dar;
 - (void) mapAnnotationView:(MKAnnotationView*)annotationView calloutAccessoryControlTapped:(UIControl*)control;
+- (SM3DARCalloutView*) sm3dar:(SM3DARController*)sm3dar calloutViewForPoint:(SM3DARPoint*)poi;
 @end
 
 @protocol SM3DARCalloutViewDelegate
-- (void) calloutViewWasTappedForPoint:(SM3DARPoint *)point;
+- (void) calloutViewWasTappedForPoint:(SM3DARPoint*)point;
 @end
 
 @class SM3DARDetailCalloutView;
@@ -75,18 +77,18 @@ typedef NSObject<SM3DARPointProtocol> SM3DARPoint;
 @property (nonatomic, assign) CGFloat mapZoomPadding;
 
 - (void) init3DAR;
-- (void) add3darContainer:(SM3DARController *)sm3dar;
-- (void) addAnnotation:(id)object withPointView:(UIView *)poiView;
+- (void) add3darContainer:(SM3DARController*)sm3dar;
+- (void) addAnnotation:(id)object withPointView:(UIView*)poiView;
 - (void) zoomMapToFitPointsIncludingUserLocation:(BOOL)includeUser;
 - (void) zoomMapToFit;
 - (void) startCamera;
 - (void) stopCamera;
 - (void) addBackground;
 - (void) removeBackground;
-- (void) moveToLocation:(CLLocation *)newLocation;
+- (void) moveToLocation:(CLLocation*)newLocation;
 - (void) removeAllAnnotations;
-- (SM3DARPoint *) pointForAnnotation:(id)object;
-- (id) annotationForPoint:(SM3DARPoint *)point;
+- (SM3DARPoint*) pointForAnnotation:(id)object;
+- (id) annotationForPoint:(SM3DARPoint*)point;
 
 @end
 
@@ -153,20 +155,6 @@ typedef struct
 //
 //
 //
-@interface SM3DARDetailCalloutView : UIView <SM3DARFocusDelegate> {}
-
-@property (nonatomic, retain) UILabel *titleLabel;
-@property (nonatomic, retain) UILabel *subtitleLabel;
-@property (nonatomic, retain) UILabel *distanceLabel;
-@property (nonatomic, retain) UIButton *disclosureButton;
-@property (nonatomic, assign) id<SM3DARCalloutViewDelegate> delegate;
-
-@end
-
-
-//
-//
-//
 @interface SM3DARController : UIViewController <UIAccelerometerDelegate, CLLocationManagerDelegate, MKMapViewDelegate> {
 }
 
@@ -210,12 +198,12 @@ typedef struct
 + (void)printMatrix:(CATransform3D)t;
 + (Coord3D) worldCoordinateFor:(CLLocation*)location;
 + (Coord3D) unitVector:(Coord3D)coord;
-- (id)initWithDelegate:(NSObject<SM3DARDelegate> *)delegate;
+- (id)initWithDelegate:(NSObject<SM3DARDelegate>*)delegate;
 - (void)forceRelease;
 - (void)setFrame:(CGRect)newFrame;
 - (void)addPoint:(SM3DARPoint*)point;
-- (SM3DARPoint*)addPointAtLocation:(CLLocation *)poiLocation title:(NSString *)poiTitle subtitle:(NSString *)poiSubtitle url:(NSURL *)poiURL properties:(NSDictionary *)poiProperties view:(UIView *)poiView;
-- (SM3DARPoint*)addPointAtLatitude:(CLLocationDegrees)poiLatitude longitude:(CLLocationDegrees)poiLongitude altitude:(CLLocationDistance)poiAltitude title:(NSString *)poiTitle view:(UIView*)poiView;
+- (SM3DARPoint*)addPointAtLocation:(CLLocation*)poiLocation title:(NSString*)poiTitle subtitle:(NSString*)poiSubtitle url:(NSURL*)poiURL properties:(NSDictionary*)poiProperties view:(UIView*)poiView;
+- (SM3DARPoint*)addPointAtLatitude:(CLLocationDegrees)poiLatitude longitude:(CLLocationDegrees)poiLongitude altitude:(CLLocationDistance)poiAltitude title:(NSString*)poiTitle view:(UIView*)poiView;
 - (void)addPointOfInterest:(SM3DARPoint*)point;
 - (void)addPointsOfInterest:(NSArray*)points;
 - (void)addPointsOfInterest:(NSArray*)points addToMap:(BOOL)addToMap;
@@ -256,7 +244,7 @@ typedef struct
 - (void)hideMap;
 - (void)zoomMapToFit;
 - (void)zoomMapToFitPointsIncludingUserLocation:(BOOL)includeUser;
-- (void)setCurrentMapLocation:(CLLocation *)location;
+- (void)setCurrentMapLocation:(CLLocation*)location;
 - (void)fadeMapToAlpha:(CGFloat)alpha;
 - (BOOL)setMapVisibility;
 - (void)annotateMap;
@@ -268,6 +256,9 @@ typedef struct
 - (void)setCameraAltitudeMeters:(CGFloat)altitude;
 - (void)setCameraPosition:(Coord3D)coordRelativeToOrigin;
 - (void)cycleCameraAltitude;
+- (BOOL)toggleGroundplaneGrid;
+- (void)setGroundplaneGridHidden:(BOOL)hide;
+- (void)addDefaultFocusView;
 
 @end
 
@@ -311,7 +302,7 @@ typedef struct
 @property (nonatomic, assign) NSUInteger identifier;
 @property (nonatomic, assign) CGFloat gearPosition;
 
-- (id)initWithLocation:(CLLocation*)theLocation title:(NSString*)theTitle subtitle:(NSString*)theSubtitle url:(NSURL*)theURL properties:(NSDictionary *)theProperties;
+- (id)initWithLocation:(CLLocation*)theLocation title:(NSString*)theTitle subtitle:(NSString*)theSubtitle url:(NSURL*)theURL properties:(NSDictionary*)theProperties;
 - (id)initWithLocation:(CLLocation*)theLocation title:(NSString*)theTitle subtitle:(NSString*)theSubtitle url:(NSURL*)theURL;
 - (id)initWithLocation:(CLLocation*)theLocation properties:(NSDictionary*)theProperties;
 - (CGFloat)distanceInMetersFrom:(CLLocation*)otherPoint;
@@ -371,8 +362,8 @@ typedef struct
 
 @property (nonatomic, retain) UIImageView *icon;
 
-- (id)initWithImageName:(NSString *)imageName;
-- (id)initWithPointOfInterest:(SM3DARPointOfInterest*)pointOfInterest imageName:(NSString *)imageName;
+- (id)initWithImageName:(NSString*)imageName;
+- (id)initWithPointOfInterest:(SM3DARPointOfInterest*)pointOfInterest imageName:(NSString*)imageName;
 + (NSString*)randomIconName;
 
 @end
@@ -430,12 +421,12 @@ typedef struct
 
 @property (nonatomic) BOOL cullFace;
 
-+ (Geometry *) newOBJFromResource:(NSString *)resource;
-+ (void) displayHemisphereWithTexture:(Texture *)texture;
-+ (void) displaySphereWithTexture:(Texture *)texture;
++ (Geometry*) newOBJFromResource:(NSString*)resource;
++ (void) displayHemisphereWithTexture:(Texture*)texture;
++ (void) displaySphereWithTexture:(Texture*)texture;
 - (void) displayWireframe;
-- (void) displayFilledWithTexture:(Texture *)texture;
-- (void) displayShaded:(UIColor *)color;
+- (void) displayFilledWithTexture:(Texture*)texture;
+- (void) displayShaded:(UIColor*)color;
 @end
 
 
@@ -478,6 +469,65 @@ typedef struct
 @interface SM3DARRoundedLabel : UILabel
 @property (nonatomic, assign) CGFloat maxWidth;
 - (void)setText:(NSString*)newText adjustSize:(BOOL)adjustSize;
+@end
+
+
+//
+//
+//
+
+@interface SM3DARCalloutView : UIView <SM3DARFocusDelegate> {}
+
+@property (nonatomic, assign) id<SM3DARCalloutViewDelegate> delegate;
+@property (nonatomic, retain) SM3DARPoint *focusedPoint;
+@property (nonatomic, retain) UILabel *titleLabel;
+@property (nonatomic, retain) UILabel *subtitleLabel;
+@property (nonatomic, retain) UILabel *distanceLabel;
+@property (nonatomic, assign) CGPoint centerOffset;
+
+- (id) initWithDelegate:(id<SM3DARCalloutViewDelegate>)delegate;
+- (void) calloutViewWasTapped;
+
+@end
+
+
+
+//
+//
+//
+@interface SM3DARDetailCalloutView : SM3DARCalloutView{}
+@property (nonatomic, retain) UIButton *disclosureButton;
+@end
+
+
+//
+//
+//
+typedef enum
+{
+    SM3DARCalloutStyleDefault,
+    SM3DARCalloutStyleSimple,
+    SM3DARCalloutStyleDetail
+} SM3DARCalloutStyle;
+
+@interface SM3DARMorphingCalloutView : UIView <SM3DARFocusDelegate>
+{}
+
+@property (nonatomic, assign) id<SM3DARCalloutViewDelegate> delegate;
+@property (nonatomic, assign) SM3DARCalloutStyle calloutStyle;
+@property (nonatomic, readonly) SM3DARCalloutStyle currentCalloutStyle;
+@property (nonatomic, retain) UILabel *titleLabel;
+@property (nonatomic, retain) UILabel *subtitleLabel;
+@property (nonatomic, retain) UILabel *distanceLabel;
+@property (nonatomic, assign) CGPoint centerOffset;
+@property (nonatomic, readonly) SM3DARPoint *focusedPoint;
+@property (nonatomic, retain) UIImage *image;
+@property (nonatomic, retain) UIImageView *imageView;
+@property (nonatomic, retain) UIButton *disclosureButton;
+
+- (id) initWithDelegate:(id<SM3DARCalloutViewDelegate>)delegate;
+- (void) calloutViewWasTapped;
+
 @end
 
 
