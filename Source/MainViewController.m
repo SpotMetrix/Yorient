@@ -12,6 +12,7 @@
 
 
 #define IDEAL_LOCATION_ACCURACY 40.0
+#define IS_WIDESCREEN ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
 
 
 @interface MainViewController ()
@@ -136,8 +137,6 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self repositionControls];
 }
 
 - (void) viewDidAppear:(BOOL)animated 
@@ -147,6 +146,8 @@
     self.toggleMapButton.hidden = [((NSString*)[[NSUserDefaults standardUserDefaults] objectForKey:@"3darMapMode"]) isEqualToString:@"auto"];
     
     [self.mapView.sm3dar startCamera];
+    [self make3darFullscreen];
+    [self repositionControls];
 }
 
 - (void) viewDidLoad 
@@ -177,9 +178,7 @@
     [self.view bringSubviewToFront:self.hudView];
     [self.view bringSubviewToFront:self.spinner];
     
-    [self.view setFrame:[UIScreen mainScreen].bounds];
-    [self.mapView.sm3dar setFrame:self.view.bounds];
-
+//    [self.view setFrame:[UIScreen mainScreen].bounds];
 }
 
 - (void)runLocalSearch:(NSString*)query 
@@ -273,8 +272,9 @@
 
 - (void) sm3darLoadPoints:(SM3DARController *)sm3dar
 {
-    // 3DAR initialization is complete, 
+    // 3DAR initialization is complete,
     // but the first location update may not be very accurate.
+
 
     if (self.mapView.sm3dar.userLocation.horizontalAccuracy <= IDEAL_LOCATION_ACCURACY)
     {
@@ -459,6 +459,7 @@ CGFloat _alt = 4;
     [self.mapView addSubview:self.toggleMapButton];
 }
 
+
 - (void) sm3darDidHideMap:(SM3DARController *)sm3dar
 {
     [self.hudView addSubview:self.mapView.sm3dar.iconLogo];
@@ -513,6 +514,7 @@ CGFloat _alt = 4;
 
 - (IBAction) refreshButtonTapped
 {
+    NSLog(@"Refresh button was tapped");
     [self runLocalSearch:self.searchQuery];
 }
 
@@ -659,6 +661,17 @@ CGFloat _alt = 4;
     return self.calloutView;
 }
 */
+
+- (void)make3darFullscreen
+{
+    [self.mapView.sm3dar setFrame:[UIScreen mainScreen].bounds];
+    [self.mapView.sm3dar.glView setFrame:[UIScreen mainScreen].bounds];
+    
+    CGFloat scale = 1.41;
+    self.mapView.sm3dar.camera.cameraViewTransform = CGAffineTransformMakeScale(scale, scale);
+    
+    NSLog(@"3DAR view: %@", self.mapView.sm3dar.view);
+}
 
 @end
 
