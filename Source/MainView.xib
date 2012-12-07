@@ -16,7 +16,6 @@
 			<string>IBProxyObject</string>
 			<string>IBUIActivityIndicatorView</string>
 			<string>IBUIButton</string>
-			<string>IBUIImageView</string>
 			<string>IBUIView</string>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -130,7 +129,7 @@
 						<reference key="NSSuperview" ref="883825266"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="656093834"/>
-						<object class="NSColor" key="IBUIBackgroundColor" id="310042901">
+						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MCAwAA</bytes>
 						</object>
@@ -169,59 +168,6 @@
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
-			<object class="IBUIView" id="747827742">
-				<reference key="NSNextResponder"/>
-				<int key="NSvFlags">292</int>
-				<object class="NSMutableArray" key="NSSubviews">
-					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="IBUIImageView" id="403350516">
-						<reference key="NSNextResponder" ref="747827742"/>
-						<int key="NSvFlags">-2147483374</int>
-						<string key="NSFrame">{{108, 0}, {84, 95}}</string>
-						<reference key="NSSuperview" ref="747827742"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="159080038"/>
-						<bool key="IBUIUserInteractionEnabled">NO</bool>
-						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<object class="NSCustomResource" key="IBUIImage">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">thumbnail_container_84x95.png</string>
-						</object>
-					</object>
-					<object class="IBUIImageView" id="159080038">
-						<reference key="NSNextResponder" ref="747827742"/>
-						<int key="NSvFlags">-2147483356</int>
-						<string key="NSFrame">{{114, 5}, {70, 70}}</string>
-						<reference key="NSSuperview" ref="747827742"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="564793228"/>
-						<bool key="IBUIUserInteractionEnabled">NO</bool>
-						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<object class="NSCustomResource" key="IBUIImage">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">temple_70x70.jpg</string>
-						</object>
-					</object>
-					<object class="IBUIView" id="564793228">
-						<reference key="NSNextResponder" ref="747827742"/>
-						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{0, 180}, {300, 66}}</string>
-						<reference key="NSSuperview" ref="747827742"/>
-						<reference key="NSWindow"/>
-						<reference key="IBUIBackgroundColor" ref="310042901"/>
-						<bool key="IBUIOpaque">NO</bool>
-						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-					</object>
-				</object>
-				<string key="NSFrameSize">{300, 274}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="403350516"/>
-				<reference key="IBUIBackgroundColor" ref="310042901"/>
-				<bool key="IBUIOpaque">NO</bool>
-				<bool key="IBUIAutoresizesSubviews">NO</bool>
-				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<object class="NSMutableArray" key="connectionRecords">
@@ -257,14 +203,6 @@
 						<reference key="destination" ref="104045471"/>
 					</object>
 					<int key="connectionID">168</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">focusView</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="747827742"/>
-					</object>
-					<int key="connectionID">162</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -307,22 +245,6 @@
 						<int key="IBEventType">7</int>
 					</object>
 					<int key="connectionID">153</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">focusThumbView</string>
-						<reference key="source" ref="747827742"/>
-						<reference key="destination" ref="159080038"/>
-					</object>
-					<int key="connectionID">164</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">focusCalloutView</string>
-						<reference key="source" ref="747827742"/>
-						<reference key="destination" ref="564793228"/>
-					</object>
-					<int key="connectionID">166</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -380,35 +302,6 @@
 						<reference key="parent" ref="883825266"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">155</int>
-						<reference key="object" ref="747827742"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="403350516"/>
-							<reference ref="159080038"/>
-							<reference ref="564793228"/>
-						</object>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Old focusView </string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">156</int>
-						<reference key="object" ref="403350516"/>
-						<reference key="parent" ref="747827742"/>
-						<string key="objectName">Thumbnail Container</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">159</int>
-						<reference key="object" ref="159080038"/>
-						<reference key="parent" ref="747827742"/>
-						<string key="objectName">Thumbnail</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">157</int>
-						<reference key="object" ref="564793228"/>
-						<reference key="parent" ref="747827742"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">149</int>
 						<reference key="object" ref="62521166"/>
 						<reference key="parent" ref="104045471"/>
@@ -434,12 +327,6 @@
 					<string>146.IBPluginDependency</string>
 					<string>149.IBPluginDependency</string>
 					<string>152.IBPluginDependency</string>
-					<string>155.CustomClassName</string>
-					<string>155.IBPluginDependency</string>
-					<string>156.IBPluginDependency</string>
-					<string>157.CustomClassName</string>
-					<string>157.IBPluginDependency</string>
-					<string>159.IBPluginDependency</string>
 					<string>34.IBPluginDependency</string>
 					<string>45.IBPluginDependency</string>
 					<string>83.IBPluginDependency</string>
@@ -452,12 +339,6 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>SM3DARMapView</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>ThumbnailCalloutFocusView</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>SM3DARDetailCalloutView</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -675,16 +556,12 @@
 				<string>ar_icon_black_34x34.png</string>
 				<string>ar_icon_white_34x34.png</string>
 				<string>refresh_button.png</string>
-				<string>temple_70x70.jpg</string>
-				<string>thumbnail_container_84x95.png</string>
 			</object>
 			<object class="NSArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>{34, 34}</string>
 				<string>{34, 34}</string>
 				<string>{52, 52}</string>
-				<string>{70, 70}</string>
-				<string>{84, 95}</string>
 			</object>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">1926</string>

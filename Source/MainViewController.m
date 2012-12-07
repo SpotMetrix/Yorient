@@ -12,7 +12,6 @@
 
 
 #define IDEAL_LOCATION_ACCURACY 40.0
-#define IS_WIDESCREEN ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
 
 
 @interface MainViewController ()
@@ -24,7 +23,7 @@
     NSInteger desiredLocationAccuracyAttempts;
 }
 
-@property (nonatomic, retain) SM3DARCalloutView *calloutView;
+@property (nonatomic, retain) SM3DARMorphingCalloutView *calloutView;
 @property (nonatomic, retain) SM3DARPointOfInterest *northStar;
 
 @end
@@ -53,7 +52,6 @@
     self.mapView = nil;
     self.hudView = nil;
     self.birdseyeView = nil;
-    self.focusView = nil;
     self.spinner = nil;
     self.toggleMapButton = nil;
     
@@ -648,29 +646,43 @@ CGFloat _alt = 4;
     return annotationView;
 }
 
-/*
+// Return nil from sm3dar:calloutViewForPoint: to disable the given point's callout.
 - (SM3DARCalloutView*) sm3dar:(SM3DARController*)sm3dar calloutViewForPoint:(SM3DARPoint*)point
 {
     if (self.calloutView == nil)
     {
-        self.calloutView = [[SM3DARDetailCalloutView alloc] initWithFrame:CGRectZero];
+        // A blue disclosure button will be visible if the callout view has an SM3DARCalloutViewDelegate.
+        // Set the delegate to nil to hide the disclosure button.
+        
+        self.calloutView = [[[SM3DARMorphingCalloutView alloc] initWithDelegate:self] autorelease];
         self.calloutView.centerOffset = CGPointMake(0, 50);
+
         NSLog(@"Initialized new callout view of type '%@'", [self.calloutView class]);
     }
-    
-    return self.calloutView;
+ 
+    return (SM3DARCalloutView*)self.calloutView;
 }
-*/
 
+- (void) calloutViewWasTappedForPoint:(SM3DARPoint*)point
+{
+    NSLog(@"Callout view tapped: %@", point.title);
+}
+
+#define IS_WIDESCREEN ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
+
+//
+// Call this after starting the camera, which must happen after at or after viewDidAppear.
+//
 - (void)make3darFullscreen
 {
     [self.mapView.sm3dar setFrame:[UIScreen mainScreen].bounds];
     [self.mapView.sm3dar.glView setFrame:[UIScreen mainScreen].bounds];
-    
-    CGFloat scale = 1.41;
-    self.mapView.sm3dar.camera.cameraViewTransform = CGAffineTransformMakeScale(scale, scale);
-    
-    NSLog(@"3DAR view: %@", self.mapView.sm3dar.view);
+  
+    if (IS_WIDESCREEN)
+    {
+        CGFloat scale = 1.41;
+        self.mapView.sm3dar.camera.cameraViewTransform = CGAffineTransformMakeScale(scale, scale);
+    }
 }
 
 @end

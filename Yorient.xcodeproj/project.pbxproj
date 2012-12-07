@@ -35,9 +35,9 @@
 		A6622C0F137A21E30002E03D /* NSDictionary+BSJSONAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A6622BBE137A21E30002E03D /* NSDictionary+BSJSONAdditions.m */; };
 		A6622C10137A21E30002E03D /* NSScanner+BSJSONAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A6622BC0137A21E30002E03D /* NSScanner+BSJSONAdditions.m */; };
 		A6622C11137A21E30002E03D /* NSString+BSJSONAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A6622BC2137A21E30002E03D /* NSString+BSJSONAdditions.m */; };
-		A671BD62166FD89600C19F6A /* lib3DAR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A671BD61166FD89600C19F6A /* lib3DAR.a */; };
 		A67F63D213FF3A06005258A9 /* polaris@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A67F63D013FF3A06005258A9 /* polaris@2x.png */; };
 		A67F63D313FF3A06005258A9 /* polaris.png in Resources */ = {isa = PBXBuildFile; fileRef = A67F63D113FF3A06005258A9 /* polaris.png */; };
+		A6899B3516726E7B008089FC /* lib3DAR_v23_2012_12_06.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6899B3416726E7B008089FC /* lib3DAR_v23_2012_12_06.a */; };
 		A69C5793144BB7AE00670AE4 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A69C5792144BB7AE00670AE4 /* AVFoundation.framework */; };
 		A69C57A0144BB7BE00670AE4 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A69C579F144BB7BE00670AE4 /* AssetsLibrary.framework */; };
 		A69C57BA144BB7CC00670AE4 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A69C57B9144BB7CC00670AE4 /* CoreMedia.framework */; };
@@ -71,11 +71,6 @@
 		A6D3C2EE13FA80D60087E653 /* ThumbnailCalloutFocusView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D3C2ED13FA80D60087E653 /* ThumbnailCalloutFocusView.m */; };
 		A6D3C39A13FA948D0087E653 /* temple_70x70@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A6D3C39813FA948D0087E653 /* temple_70x70@2x.jpg */; };
 		A6D3C39B13FA948D0087E653 /* temple_70x70.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A6D3C39913FA948D0087E653 /* temple_70x70.jpg */; };
-		A6D68FB4137A692A00402D63 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = A6D68FAF137A692A00402D63 /* Debug.xcconfig */; };
-		A6D68FB5137A692A00402D63 /* Distribution.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = A6D68FB0137A692A00402D63 /* Distribution.xcconfig */; };
-		A6D68FB6137A692A00402D63 /* Private.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = A6D68FB1137A692A00402D63 /* Private.xcconfig */; };
-		A6D68FB7137A692A00402D63 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = A6D68FB2137A692A00402D63 /* Release.xcconfig */; };
-		A6D68FB8137A692A00402D63 /* Shared.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = A6D68FB3137A692A00402D63 /* Shared.xcconfig */; };
 		A6D68FBA137A697900402D63 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6D68FB9137A697900402D63 /* CFNetwork.framework */; };
 		A6D68FBE137A69B400402D63 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6D68FBD137A69B400402D63 /* MobileCoreServices.framework */; };
 		A6D68FC0137A69B400402D63 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6D68FBF137A69B400402D63 /* SystemConfiguration.framework */; };
@@ -130,9 +125,9 @@
 		A6622BC0137A21E30002E03D /* NSScanner+BSJSONAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSScanner+BSJSONAdditions.m"; sourceTree = "<group>"; };
 		A6622BC1137A21E30002E03D /* NSString+BSJSONAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+BSJSONAdditions.h"; sourceTree = "<group>"; };
 		A6622BC2137A21E30002E03D /* NSString+BSJSONAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+BSJSONAdditions.m"; sourceTree = "<group>"; };
-		A671BD61166FD89600C19F6A /* lib3DAR.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = lib3DAR.a; sourceTree = "<group>"; };
 		A67F63D013FF3A06005258A9 /* polaris@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "polaris@2x.png"; sourceTree = "<group>"; };
 		A67F63D113FF3A06005258A9 /* polaris.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = polaris.png; sourceTree = "<group>"; };
+		A6899B3416726E7B008089FC /* lib3DAR_v23_2012_12_06.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = lib3DAR_v23_2012_12_06.a; sourceTree = "<group>"; };
 		A69C5792144BB7AE00670AE4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		A69C579F144BB7BE00670AE4 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		A69C57B9144BB7CC00670AE4 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -205,7 +200,7 @@
 				A69C5793144BB7AE00670AE4 /* AVFoundation.framework in Frameworks */,
 				A69C57A0144BB7BE00670AE4 /* AssetsLibrary.framework in Frameworks */,
 				A69C57BA144BB7CC00670AE4 /* CoreMedia.framework in Frameworks */,
-				A671BD62166FD89600C19F6A /* lib3DAR.a in Frameworks */,
+				A6899B3516726E7B008089FC /* lib3DAR_v23_2012_12_06.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,7 +274,7 @@
 		A60C94841457B21E00C61B3B /* Lib */ = {
 			isa = PBXGroup;
 			children = (
-				A671BD61166FD89600C19F6A /* lib3DAR.a */,
+				A6899B3416726E7B008089FC /* lib3DAR_v23_2012_12_06.a */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -469,7 +464,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0450;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Yorient" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -505,11 +500,6 @@
 				A6622C06137A21E30002E03D /* FlipsideView.xib in Resources */,
 				A6622C08137A21E30002E03D /* MainView.xib in Resources */,
 				A6622C0A137A21E30002E03D /* MainWindow.xib in Resources */,
-				A6D68FB4137A692A00402D63 /* Debug.xcconfig in Resources */,
-				A6D68FB5137A692A00402D63 /* Distribution.xcconfig in Resources */,
-				A6D68FB6137A692A00402D63 /* Private.xcconfig in Resources */,
-				A6D68FB7137A692A00402D63 /* Release.xcconfig in Resources */,
-				A6D68FB8137A692A00402D63 /* Shared.xcconfig in Resources */,
 				A64E6BFF137CB5C6003A06B5 /* refresh_button.png in Resources */,
 				A64E6C00137CB5C6003A06B5 /* refresh_button@2x.png in Resources */,
 				A6D3C2DF13FA7C120087E653 /* thumbnail_container_84x95@2x.png in Resources */,

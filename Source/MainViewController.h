@@ -14,14 +14,13 @@
 #import "BirdseyeView.h"
 #import "ThumbnailCalloutFocusView.h"
 
-@interface MainViewController : UIViewController <MKMapViewDelegate, SM3DARDelegate, CLLocationManagerDelegate, SearchDelegate> 
+@interface MainViewController : UIViewController <MKMapViewDelegate, SM3DARDelegate, CLLocationManagerDelegate, SearchDelegate, SM3DARCalloutViewDelegate>
 {}
 
 @property (nonatomic, retain) NSString *searchQuery;
 @property (nonatomic, retain) YahooLocalSearch *search;
 @property (nonatomic, retain) IBOutlet SM3DARMapView *mapView;
 @property (nonatomic, retain) IBOutlet UIView *hudView;
-@property (nonatomic, retain) IBOutlet ThumbnailCalloutFocusView *focusView;
 @property (nonatomic, retain) BirdseyeView *birdseyeView;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, retain) IBOutlet UIButton *toggleMapButton;
@@ -31,9 +30,9 @@
 - (void)playFocusSound;
 - (void)runLocalSearch:(NSString*)query;
 //- (void)addDirectionBillboardsWithFixtures;
-- (IBAction) refreshButtonTapped;
-- (IBAction) toggleMapButtonTapped:(UIButton *)sender;
-- (void) addNorthStar;
-- (void) loadPoints;
+- (IBAction)refreshButtonTapped;
+- (IBAction)toggleMapButtonTapped:(UIButton *)sender;
+- (void)addNorthStar;
+- (void)loadPoints;
 
 @end

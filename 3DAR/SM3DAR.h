@@ -1,5 +1,5 @@
 /*
- *  3DAR Version 2.2.1
+ *  3DAR Version 2.3 2012_12_06
  *
  *  SM3DAR.h
  *
@@ -169,7 +169,8 @@ typedef struct
 @property (nonatomic, retain) SM3DARPoint *selectedPOI;
 @property (nonatomic, assign) Class markerViewClass;
 @property (nonatomic, retain) NSString *mapAnnotationImageName;
-@property (nonatomic, retain) NSObject<SM3DARFocusDelegate> *focusView;
+@property (nonatomic, retain) UIView<SM3DARFocusDelegate> *focusView;
+@property (nonatomic, retain) UIView<SM3DARFocusDelegate> *defaultCalloutView;
 @property (nonatomic, assign) CGFloat screenOrientationRadians;
 @property (nonatomic, retain) UIView *glView;
 @property (nonatomic, retain) UIView *hudView;
@@ -291,6 +292,7 @@ typedef struct
 
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *subtitle;
+@property (nonatomic, retain) UIImage *image;
 @property (nonatomic, retain) NSDictionary *properties;
 @property (nonatomic, retain) NSURL *dataURL;
 @property (nonatomic, assign) NSObject<SM3DARDelegate> *delegate;
@@ -483,51 +485,31 @@ typedef struct
 @property (nonatomic, retain) UILabel *titleLabel;
 @property (nonatomic, retain) UILabel *subtitleLabel;
 @property (nonatomic, retain) UILabel *distanceLabel;
-@property (nonatomic, assign) CGPoint centerOffset;
-
-- (id) initWithDelegate:(id<SM3DARCalloutViewDelegate>)delegate;
-- (void) calloutViewWasTapped;
-
-@end
-
-
-
-//
-//
-//
-@interface SM3DARDetailCalloutView : SM3DARCalloutView{}
 @property (nonatomic, retain) UIButton *disclosureButton;
-@end
-
-
-//
-//
-//
-typedef enum
-{
-    SM3DARCalloutStyleDefault,
-    SM3DARCalloutStyleSimple,
-    SM3DARCalloutStyleDetail
-} SM3DARCalloutStyle;
-
-@interface SM3DARMorphingCalloutView : UIView <SM3DARFocusDelegate>
-{}
-
-@property (nonatomic, assign) id<SM3DARCalloutViewDelegate> delegate;
-@property (nonatomic, assign) SM3DARCalloutStyle calloutStyle;
-@property (nonatomic, readonly) SM3DARCalloutStyle currentCalloutStyle;
-@property (nonatomic, retain) UILabel *titleLabel;
-@property (nonatomic, retain) UILabel *subtitleLabel;
-@property (nonatomic, retain) UILabel *distanceLabel;
 @property (nonatomic, assign) CGPoint centerOffset;
-@property (nonatomic, readonly) SM3DARPoint *focusedPoint;
 @property (nonatomic, retain) UIImage *image;
 @property (nonatomic, retain) UIImageView *imageView;
-@property (nonatomic, retain) UIButton *disclosureButton;
 
 - (id) initWithDelegate:(id<SM3DARCalloutViewDelegate>)delegate;
 - (void) calloutViewWasTapped;
 
+@end
+
+
+
+//
+//
+//
+@interface SM3DARDetailCalloutView : SM3DARCalloutView
+{}
+@end
+
+
+//
+//
+//
+@interface SM3DARMorphingCalloutView : SM3DARCalloutView
+{}
 @end
 
 
