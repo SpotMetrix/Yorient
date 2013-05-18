@@ -37,10 +37,10 @@
 		A6622C11137A21E30002E03D /* NSString+BSJSONAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A6622BC2137A21E30002E03D /* NSString+BSJSONAdditions.m */; };
 		A67F63D213FF3A06005258A9 /* polaris@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A67F63D013FF3A06005258A9 /* polaris@2x.png */; };
 		A67F63D313FF3A06005258A9 /* polaris.png in Resources */ = {isa = PBXBuildFile; fileRef = A67F63D113FF3A06005258A9 /* polaris.png */; };
-		A6899B3516726E7B008089FC /* lib3DAR_v23_2012_12_06.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6899B3416726E7B008089FC /* lib3DAR_v23_2012_12_06.a */; };
 		A69C5793144BB7AE00670AE4 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A69C5792144BB7AE00670AE4 /* AVFoundation.framework */; };
 		A69C57A0144BB7BE00670AE4 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A69C579F144BB7BE00670AE4 /* AssetsLibrary.framework */; };
 		A69C57BA144BB7CC00670AE4 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A69C57B9144BB7CC00670AE4 /* CoreMedia.framework */; };
+		A6A07E9F174839A500E6B962 /* lib3DAR_v23_2012_12_06_DistributionPatch_2013_05_18.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A07E9E174839A500E6B962 /* lib3DAR_v23_2012_12_06_DistributionPatch_2013_05_18.a */; };
 		A6BE263913811F0F000A4A4F /* BirdseyeView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BE263813811F0F000A4A4F /* BirdseyeView.m */; };
 		A6BFE087130B7484007D8CA3 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A6BFE081130B7484007D8CA3 /* Default.png */; };
 		A6BFE088130B7484007D8CA3 /* focus1.aif in Resources */ = {isa = PBXBuildFile; fileRef = A6BFE082130B7484007D8CA3 /* focus1.aif */; };
@@ -127,10 +127,10 @@
 		A6622BC2137A21E30002E03D /* NSString+BSJSONAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+BSJSONAdditions.m"; sourceTree = "<group>"; };
 		A67F63D013FF3A06005258A9 /* polaris@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "polaris@2x.png"; sourceTree = "<group>"; };
 		A67F63D113FF3A06005258A9 /* polaris.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = polaris.png; sourceTree = "<group>"; };
-		A6899B3416726E7B008089FC /* lib3DAR_v23_2012_12_06.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = lib3DAR_v23_2012_12_06.a; sourceTree = "<group>"; };
 		A69C5792144BB7AE00670AE4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		A69C579F144BB7BE00670AE4 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		A69C57B9144BB7CC00670AE4 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		A6A07E9E174839A500E6B962 /* lib3DAR_v23_2012_12_06_DistributionPatch_2013_05_18.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = lib3DAR_v23_2012_12_06_DistributionPatch_2013_05_18.a; sourceTree = "<group>"; };
 		A6BE263713811F0E000A4A4F /* BirdseyeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BirdseyeView.h; sourceTree = "<group>"; };
 		A6BE263813811F0F000A4A4F /* BirdseyeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BirdseyeView.m; sourceTree = "<group>"; };
 		A6BFE081130B7484007D8CA3 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -200,7 +200,7 @@
 				A69C5793144BB7AE00670AE4 /* AVFoundation.framework in Frameworks */,
 				A69C57A0144BB7BE00670AE4 /* AssetsLibrary.framework in Frameworks */,
 				A69C57BA144BB7CC00670AE4 /* CoreMedia.framework in Frameworks */,
-				A6899B3516726E7B008089FC /* lib3DAR_v23_2012_12_06.a in Frameworks */,
+				A6A07E9F174839A500E6B962 /* lib3DAR_v23_2012_12_06_DistributionPatch_2013_05_18.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,7 +274,7 @@
 		A60C94841457B21E00C61B3B /* Lib */ = {
 			isa = PBXGroup;
 			children = (
-				A6899B3416726E7B008089FC /* lib3DAR_v23_2012_12_06.a */,
+				A6A07E9E174839A500E6B962 /* lib3DAR_v23_2012_12_06_DistributionPatch_2013_05_18.a */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -580,6 +580,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/3DAR/Lib\"",
 					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/SM3DAR-dpowqirbrbycxcaczextffmwjygz/Build/Products/Debug-iphoneos\"",
+					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/SM3DAR-brrgvvyjbssuihdfxmnenuegykgj/Build/Products/Debug-iphoneos\"",
 				);
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -610,6 +611,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/3DAR/Lib\"",
 					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/SM3DAR-dpowqirbrbycxcaczextffmwjygz/Build/Products/Debug-iphoneos\"",
+					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/SM3DAR-brrgvvyjbssuihdfxmnenuegykgj/Build/Products/Debug-iphoneos\"",
 				);
 				OTHER_LDFLAGS = (
 					"-all_load",
