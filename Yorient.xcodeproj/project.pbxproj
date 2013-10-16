@@ -566,10 +566,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Vendor/ext\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -579,8 +576,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/3DAR/Lib\"",
-					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/SM3DAR-dpowqirbrbycxcaczextffmwjygz/Build/Products/Debug-iphoneos\"",
-					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/SM3DAR-brrgvvyjbssuihdfxmnenuegykgj/Build/Products/Debug-iphoneos\"",
 				);
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -599,10 +594,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Vendor/ext\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Yorient_Prefix.pch;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
@@ -610,8 +602,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/3DAR/Lib\"",
-					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/SM3DAR-dpowqirbrbycxcaczextffmwjygz/Build/Products/Debug-iphoneos\"",
-					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/SM3DAR-brrgvvyjbssuihdfxmnenuegykgj/Build/Products/Debug-iphoneos\"",
 				);
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -646,7 +636,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Spot Metrix, Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;

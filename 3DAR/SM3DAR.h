@@ -122,7 +122,7 @@ typedef struct
 @property (nonatomic, assign) BOOL canReceiveFocus;
 @property (nonatomic, assign) BOOL hasFocus;
 @property (nonatomic, assign) NSUInteger identifier;
-@property (nonatomic, retain) NSString *title;
+@property (nonatomic, copy) NSString *title;
 
 - (Coord3D) worldCoordinate;
 - (void) translateX:(CGFloat)x Y:(CGFloat)y Z:(CGFloat)z;
@@ -274,7 +274,7 @@ typedef struct
 @property (nonatomic, assign) BOOL canReceiveFocus;
 @property (nonatomic, assign) BOOL hasFocus;
 @property (nonatomic, assign) NSUInteger identifier;
-@property (nonatomic, retain) NSString *title;
+@property (nonatomic, copy) NSString *title;
 
 - (CGFloat)gearSpeed;
 - (NSInteger)numberOfTeethInGear;
@@ -290,8 +290,8 @@ typedef struct
 @interface SM3DARPointOfInterest : CLLocation <MKAnnotation, SM3DARPointProtocol> {
 }
 
-@property (nonatomic, retain) NSString *title;
-@property (nonatomic, retain) NSString *subtitle;
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *subtitle;
 @property (nonatomic, retain) UIImage *image;
 @property (nonatomic, retain) NSDictionary *properties;
 @property (nonatomic, retain) NSURL *dataURL;
