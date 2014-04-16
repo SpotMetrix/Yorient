@@ -9,16 +9,16 @@
 #import <CoreLocation/CoreLocation.h>
 #import "SM3DAR.h" 
 #import "AudioToolbox/AudioServices.h"
-#import "YahooLocalSearch.h"
+#import "ILGeoNamesSearchController.h"
 #import <MapKit/MapKit.h>
 #import "BirdseyeView.h"
 #import "ThumbnailCalloutFocusView.h"
 
-@interface MainViewController : UIViewController <MKMapViewDelegate, SM3DARDelegate, CLLocationManagerDelegate, SearchDelegate, SM3DARCalloutViewDelegate>
+@interface MainViewController : UIViewController <MKMapViewDelegate, SM3DARDelegate, CLLocationManagerDelegate, SM3DARCalloutViewDelegate, ILGeoNamesLookupDelegate>
 {}
 
 @property (nonatomic, retain) NSString *searchQuery;
-@property (nonatomic, retain) YahooLocalSearch *search;
+@property (nonatomic, retain) ILGeoNamesLookup *search;
 @property (nonatomic, retain) IBOutlet SM3DARMapView *mapView;
 @property (nonatomic, retain) IBOutlet UIView *hudView;
 @property (nonatomic, retain) BirdseyeView *birdseyeView;
@@ -28,7 +28,6 @@
 
 - (void)initSound;
 - (void)playFocusSound;
-- (void)runLocalSearch:(NSString*)query;
 //- (void)addDirectionBillboardsWithFixtures;
 - (IBAction)refreshButtonTapped;
 - (IBAction)toggleMapButtonTapped:(UIButton *)sender;

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		224AB41118FEF40D00C83122 /* GeonamesWikipediaSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 224AB41018FEF40D00C83122 /* GeonamesWikipediaSearch.m */; };
+		224AB42B18FEF5AD00C83122 /* ILGeoNames.strings in Resources */ = {isa = PBXBuildFile; fileRef = 224AB41418FEF5AD00C83122 /* ILGeoNames.strings */; };
+		224AB42C18FEF5AD00C83122 /* ILGeoNamesLookup.m in Sources */ = {isa = PBXBuildFile; fileRef = 224AB41718FEF5AD00C83122 /* ILGeoNamesLookup.m */; };
 		A618BB9A1607DE7300755CE7 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A618BB991607DE7300755CE7 /* Default-568h@2x.png */; };
 		A645425712A4E3B40014F23C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A645425612A4E3B40014F23C /* AudioToolbox.framework */; };
 		A645425912A4E3B40014F23C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A645425812A4E3B40014F23C /* CoreGraphics.framework */; };
@@ -82,6 +85,13 @@
 
 /* Begin PBXFileReference section */
 		1D6058910D05DD3D006BFB54 /* Yorient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yorient.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		224AB40F18FEF40D00C83122 /* GeonamesWikipediaSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeonamesWikipediaSearch.h; sourceTree = "<group>"; };
+		224AB41018FEF40D00C83122 /* GeonamesWikipediaSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeonamesWikipediaSearch.m; sourceTree = "<group>"; };
+		224AB41518FEF5AD00C83122 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ILGeoNames.strings; sourceTree = "<group>"; };
+		224AB41618FEF5AD00C83122 /* ILGeoNamesLookup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILGeoNamesLookup.h; sourceTree = "<group>"; };
+		224AB41718FEF5AD00C83122 /* ILGeoNamesLookup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILGeoNamesLookup.m; sourceTree = "<group>"; };
+		224AB41818FEF5AD00C83122 /* ILGeoNamesSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILGeoNamesSearchController.h; sourceTree = "<group>"; };
+		224AB41918FEF5AD00C83122 /* ILGeoNamesSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILGeoNamesSearchController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Yorient_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Yorient_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Yorient-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Yorient-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
@@ -215,6 +225,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		224AB41318FEF5AD00C83122 /* Geonames */ = {
+			isa = PBXGroup;
+			children = (
+				224AB41418FEF5AD00C83122 /* ILGeoNames.strings */,
+				224AB41618FEF5AD00C83122 /* ILGeoNamesLookup.h */,
+				224AB41718FEF5AD00C83122 /* ILGeoNamesLookup.m */,
+				224AB41818FEF5AD00C83122 /* ILGeoNamesSearchController.h */,
+				224AB41918FEF5AD00C83122 /* ILGeoNamesSearchController.m */,
+			);
+			path = Geonames;
+			sourceTree = "<group>";
+		};
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
@@ -318,18 +340,20 @@
 				A6622BAC137A21E30002E03D /* FlipsideView.xib */,
 				A6622BAD137A21E30002E03D /* FlipsideViewController.h */,
 				A6622BAE137A21E30002E03D /* FlipsideViewController.m */,
+				224AB40F18FEF40D00C83122 /* GeonamesWikipediaSearch.h */,
+				224AB41018FEF40D00C83122 /* GeonamesWikipediaSearch.m */,
 				A6622BAF137A21E30002E03D /* MainView.xib */,
 				A6622BB0137A21E30002E03D /* MainViewController.h */,
 				A6622BB1137A21E30002E03D /* MainViewController.m */,
 				A6622BB2137A21E30002E03D /* MainWindow.xib */,
+				A6D3C2EC13FA80D60087E653 /* ThumbnailCalloutFocusView.h */,
+				A6D3C2ED13FA80D60087E653 /* ThumbnailCalloutFocusView.m */,
 				A6D3C09A13F9C2BB0087E653 /* ThumbnailMarkerWithCalloutView.h */,
 				A6D3C09B13F9C2BB0087E653 /* ThumbnailMarkerWithCalloutView.m */,
 				A6622BB3137A21E30002E03D /* YahooLocalSearch.h */,
 				A6622BB4137A21E30002E03D /* YahooLocalSearch.m */,
 				A6622BB5137A21E30002E03D /* YorientAppDelegate.h */,
 				A6622BB6137A21E30002E03D /* YorientAppDelegate.m */,
-				A6D3C2EC13FA80D60087E653 /* ThumbnailCalloutFocusView.h */,
-				A6D3C2ED13FA80D60087E653 /* ThumbnailCalloutFocusView.m */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -348,6 +372,7 @@
 		A6622BB7137A21E30002E03D /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				224AB41318FEF5AD00C83122 /* Geonames */,
 				A69CBA6E13DA3E3700E718D1 /* ext */,
 				A6622BB8137A21E30002E03D /* BSJSONAdditions */,
 			);
@@ -525,6 +550,7 @@
 				A6C2F099143CF48E00EDE309 /* cube.obj in Resources */,
 				A6C2F09A143CF48E00EDE309 /* moebius.obj in Resources */,
 				A6C2F09B143CF48E00EDE309 /* sphere.obj in Resources */,
+				224AB42B18FEF5AD00C83122 /* ILGeoNames.strings in Resources */,
 				A6C2F09C143CF48E00EDE309 /* star.obj in Resources */,
 				A6C2F09D143CF48E00EDE309 /* ufo.obj in Resources */,
 				A6C2F09F143CF48E00EDE309 /* SM3DAR_keys.txt in Resources */,
@@ -539,6 +565,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				224AB41118FEF40D00C83122 /* GeonamesWikipediaSearch.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				A6622C03137A21E30002E03D /* UIApplication_TLCommon.m in Sources */,
 				A6622C04137A21E30002E03D /* UIColor_Expanded.m in Sources */,
@@ -549,6 +576,7 @@
 				A6622C0C137A21E30002E03D /* YorientAppDelegate.m in Sources */,
 				A6622C0D137A21E30002E03D /* BSJSONEncoder.m in Sources */,
 				A6622C0E137A21E30002E03D /* NSArray+BSJSONAdditions.m in Sources */,
+				224AB42C18FEF5AD00C83122 /* ILGeoNamesLookup.m in Sources */,
 				A6622C0F137A21E30002E03D /* NSDictionary+BSJSONAdditions.m in Sources */,
 				A6622C10137A21E30002E03D /* NSScanner+BSJSONAdditions.m in Sources */,
 				A6622C11137A21E30002E03D /* NSString+BSJSONAdditions.m in Sources */,
@@ -559,6 +587,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		224AB41418FEF5AD00C83122 /* ILGeoNames.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				224AB41518FEF5AD00C83122 /* en */,
+			);
+			name = ILGeoNames.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {

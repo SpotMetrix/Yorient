@@ -177,23 +177,29 @@
     [self.view bringSubviewToFront:self.spinner];
     
 //    [self.view setFrame:[UIScreen mainScreen].bounds];
+    
 }
 
-- (void)runLocalSearch:(NSString*)query 
+- (void)runWikipediaSearch
 {
-    self.searchQuery = query;
+//    self.mapView.sm3dar.userLocation
+    
     [self lookBusy];
     
     [self.mapView removeAnnotations:self.mapView.annotations];
     
     
     BOOL locationAvailable = (self.mapView.sm3dar.locationManager && self.mapView.sm3dar.locationManager.location);
-
+    
     if (locationAvailable)
     {
         
-        self.search.location = self.mapView.sm3dar.userLocation;
-        [self.search execute:self.searchQuery];
+        CLLocation *l = self.mapView.sm3dar.userLocation;
+        [self.search findNearbyWikipediaForLatitude:l.coordinate.latitude
+                                          longitude:l.coordinate.longitude
+                                            maxRows:20
+                                             radius:20 // km
+                                       languageCode:nil];
     }
     else
     {
@@ -202,7 +208,7 @@
         NSMutableArray *points = [NSMutableArray array];
         CLLocationDegrees latitude = self.mapView.sm3dar.userLocation.coordinate.latitude + 0.001;
         CLLocationDegrees longitude = self.mapView.sm3dar.userLocation.coordinate.longitude;
-
+        
         CLLocation *location = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
         SM3DARPointOfInterest *poi = [[SM3DARPointOfInterest alloc] initWithLocation:location
                                                                                title:@"Dummy 1"
@@ -226,10 +232,10 @@
         [self.mapView zoomMapToFit];
         [self relax];
     }
-
+    
 }
 
-- (void)didReceiveMemoryWarning 
+- (void)didReceiveMemoryWarning
 {
     NSLog(@"\n\ndidReceiveMemoryWarning\n\n");
     [super didReceiveMemoryWarning];
@@ -253,14 +259,8 @@
     
     [self addNorthStar];
     
-    if (!self.search)
-    {
-        self.search = [[YahooLocalSearch alloc] initAtLocation:self.mapView.sm3dar.userLocation];
-        self.search.delegate = self;
-    }
-    
-    [self runLocalSearch:@"restaurant"];
 
+    [self runWikipediaSearch];
     // TODO: Move this into 3DAR as display3darLogo
     
     CGFloat logoCenterX = self.mapView.sm3dar.view.frame.size.width - 10 - (self.mapView.sm3dar.iconLogo.frame.size.width / 2);
@@ -272,6 +272,12 @@
 {
     // 3DAR initialization is complete,
     // but the first location update may not be very accurate.
+
+	if (!self.search)
+    {
+		self.search = [[ILGeoNamesLookup alloc] initWithUserID:@"ilgeonamessample"];
+        self.search.delegate = self;
+	}
 
 
     if (self.mapView.sm3dar.userLocation.horizontalAccuracy <= IDEAL_LOCATION_ACCURACY)
@@ -513,7 +519,7 @@ CGFloat _alt = 4;
 - (IBAction) refreshButtonTapped
 {
     NSLog(@"Refresh button was tapped");
-    [self runLocalSearch:self.searchQuery];
+    [self runWikipediaSearch];
 }
 
 - (void) addBirdseyeView
@@ -683,6 +689,110 @@ CGFloat _alt = 4;
         CGFloat scale = 1.41;
         self.mapView.sm3dar.camera.cameraViewTransform = CGAffineTransformMakeScale(scale, scale);
     }
+}
+
+
+#pragma mark -
+#pragma mark ILGeoNamesLookupDelegate
+
+- (void)geoNamesLookup:(ILGeoNamesLookup *)handler networkIsActive:(BOOL)isActive
+{
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = isActive;
+}
+
+- (void)geoNamesLookup:(ILGeoNamesLookup *)handler didFindGeoNames:(NSArray *)geoNames totalFound:(NSUInteger)total
+{
+	NSLog(@"didFindGeoNames: %@", geoNames);
+	
+	// Grab the results
+	if ([geoNames count]) {
+		self.searchDisplayController.searchBar.prompt = NSLocalizedStringFromTable(@"ILGEONAMES_SEARCH_PROMPT", @"ILGeoNames", @"");
+		[self searchDidFinishWithResults:[self parseGeonamesSearchResults:geoNames]];
+	}
+	else {
+		self.searchDisplayController.searchBar.prompt = NSLocalizedStringFromTable(@"ILGEONAMES_NO_RESULTS", @"ILGeoNames", @"");
+		[self searchDidFinishWithResults:@[]];
+	}
+    
+	[self.searchDisplayController.searchResultsTableView reloadData];
+	
+    // when the table view is repopulated, its significant enough that a screen change notification should be posted
+    UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil);
+    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
+}
+
+- (void)geoNamesLookup:(ILGeoNamesLookup *)handler didFailWithError:(NSError *)error
+{
+	// TODO error handling
+    NSLog(@"ILGeoNamesLookup has failed: %@", [error localizedDescription]);
+	self.searchDisplayController.searchBar.prompt = NSLocalizedStringFromTable(@"ILGEONAMES_SEARCH_ERR", @"ILGeoNames", @"");
+}
+
+- (NSArray*)parseGeonamesSearchResults:(NSArray*)responseSet
+{
+/*
+ countryCode = US;
+ distance = "0.0342";
+ elevation = 13;
+ feature = landmark;
+ lang = en;
+ lat = "45.52384";
+ lng = "-122.674769";
+ rank = 100;
+ summary = "The 24 Hour Church of Elvis was an exhibit at a museum and gallery called \"Where's The Art?\" in Portland, Oregon, USA, run by artist Stephanie \"Stevie\" G. Pierce. The original location (1109 SW Washington), which operated from 1985\U20131986, had a single coin-operated fortune-telling machine accessible (...)";
+ title = "24 Hour Church of Elvis";
+ wikipediaUrl = "en.wikipedia.org/wiki/24_Hour_Church_of_Elvis";
+ */
+    
+	NSDictionary *minMarker;
+	NSMutableArray *markers = [NSMutableArray arrayWithCapacity:[responseSet count]];
+    NSMutableDictionary *merged;
+    
+    NSLocale *locale = [NSLocale currentLocale];
+    NSString *language = [locale displayNameForKey:NSLocaleIdentifier
+                                             value:[locale localeIdentifier]];
+    
+    BOOL useMetric = ([[language lowercaseString] rangeOfString:@"united states"].location == NSNotFound);
+    
+	for (NSDictionary *marker in responseSet)
+    {
+        CLLocationCoordinate2D coord;
+        coord.latitude = [((NSDecimalNumber*)[marker objectForKey:@"lat"]) doubleValue];
+        coord.longitude = [((NSDecimalNumber*)[marker objectForKey:@"lng"]) doubleValue];
+        double altitude = 0.0;
+        
+        CLLocation *pointLocation = [[[CLLocation alloc] initWithCoordinate:coord
+                                                                   altitude:altitude
+                                                         horizontalAccuracy:-1
+                                                           verticalAccuracy:-1
+                                                                  timestamp:nil] autorelease];
+        
+        CLLocationDistance d = [self.mapView.sm3dar.userLocation distanceFromLocation:pointLocation];
+        NSString *distance;
+        
+        if (useMetric)
+        {
+            distance = [NSString stringWithFormat:@"%.1f m", d];
+        }
+        else
+        {
+            d *= 0.000621371192;  // Convert meters to miles
+            distance = [NSString stringWithFormat:@"%.1f mi", d];
+        }
+        
+		minMarker = [NSDictionary dictionaryWithObjectsAndKeys:
+                     [marker objectForKey:@"title"], @"title",
+                     distance, @"subtitle",
+                     pointLocation, @"location",
+                     nil];
+        
+        NSLog(@"Found %@ at %.0f away", [marker objectForKey:@"title"], d);
+        merged = [NSMutableDictionary dictionaryWithDictionary:marker];
+        [merged addEntriesFromDictionary:minMarker];
+		[markers addObject:merged];
+	}
+	
+	return markers;
 }
 
 @end
