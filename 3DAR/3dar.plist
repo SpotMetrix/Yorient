@@ -5,7 +5,7 @@
 	<key>3darAutofocusPoi</key>
 	<true/>
 	<key>3darDisableLocationServices</key>
-	<true/>
+	<false/>
 	<key>3darDrawGroundplaneGrid</key>
 	<true/>
 	<key>3darMapMode</key>

@@ -197,7 +197,7 @@
         CLLocation *l = self.mapView.sm3dar.userLocation;
         [self.search findNearbyWikipediaForLatitude:l.coordinate.latitude
                                           longitude:l.coordinate.longitude
-                                            maxRows:20
+                                            maxRows:60
                                              radius:20 // km
                                        languageCode:nil];
     }
@@ -434,7 +434,7 @@ CGFloat _alt = 4;
 
 - (void) searchDidFinishWithResults:(NSArray*)results;
 {
-    [self.mapView.sm3dar setCameraAltitudeMeters:80];
+    [self.mapView.sm3dar setCameraAltitudeMeters:20];
 
     NSMutableArray *points = [NSMutableArray arrayWithCapacity:[results count]];
     
